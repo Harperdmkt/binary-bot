@@ -1,3 +1,4 @@
+import Interpreter from 'js-interpreter'
 import { observer } from 'binary-common-utils/lib/observer'
 import { bot } from '../bot'
 import { notifyError } from './logger'
@@ -44,13 +45,15 @@ export const BotApi = {
   select: id => Blockly.mainWorkspace.highlightBlock(id),
 }
 
-window.Bot = BotApi
-
 export default class BotMiddleWare {
   constructor(code) {
-    this.code = code
+    const initFunc = (interpreter, scope) => {
+      interpreter.setProperty(scope, 'Bot',
+        interpreter.nativeToPseudo(BotApi))
+    }
+    this.interpreter = new Interpreter(code, initFunc)
   }
   run() {
-    eval(this.code) // eslint-disable-line no-eval
+    this.interpreter.run()
   }
 }
