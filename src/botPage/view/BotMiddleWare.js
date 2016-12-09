@@ -16,7 +16,9 @@ export const BotApi = {
     dp.initSvg()
     dp.render()
   },
-  start: bot.start.bind(bot),
+  start: (...args) => {
+    bot.start(...args, ticks => observer.emit('global.ticks', ticks))
+  },
   shouldRestartOnError: bot.shouldRestartOnError.bind(bot),
   restartOnError: bot.restartOnError.bind(bot),
   stop: () => {
@@ -48,12 +50,23 @@ export const BotApi = {
 export default class BotMiddleWare {
   constructor(code) {
     const initFunc = (interpreter, scope) => {
+      interpreter.setProperty(scope, 'getNewTicks',
+        interpreter.createAsyncFunction((callback) => {
+          observer.register('global.ticks', ticks =>
+            callback(interpreter.nativeToPseudo(ticks)), true)
+        }))
+      interpreter.setProperty(scope, 'console',
+        interpreter.nativeToPseudo(console))
       interpreter.setProperty(scope, 'Bot',
         interpreter.nativeToPseudo(BotApi))
     }
     this.interpreter = new Interpreter(code, initFunc)
   }
   run() {
-    this.interpreter.run()
+    const interpreterLoop = setInterval(() => {
+      if (!this.interpreter.step()) {
+        clearInterval(interpreterLoop)
+      }
+    }, 10)
   }
 }

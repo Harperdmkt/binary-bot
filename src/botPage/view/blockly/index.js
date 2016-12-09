@@ -216,17 +216,7 @@ export default class _Blockly {
         var trade, before_purchase, during_purchase, after_purchase;
         var tick_analysis_list = [];
         ${Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace)}
-        try {
-          if (typeof trade !== 'undefined') {
-            trade();
-          }
-        } catch (e) {
-          if (e.name !== 'BlocklyError') {
-            Bot.notifyError(e);
-            throw e;
-          }
-        }
-      `
+        `
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null
       this.generatedJs = code
     } catch (e) {

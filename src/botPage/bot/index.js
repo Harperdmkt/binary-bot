@@ -55,11 +55,11 @@ export default class Bot {
     }
   }
   start(...args) {
-    const [token, tradeOption, beforePurchase, duringPurchase, afterPurchase, sameTrade, tickAnalysisList = []] = args
+    const [token, tradeOption, beforePurchase, duringPurchase, afterPurchase, sameTrade, getNewTicks = () => {}] = args
     this.startArgs = args
     if (!this.purchaseCtrl) {
       this.purchaseCtrl = new PurchaseCtrl(this.api, beforePurchase, duringPurchase, afterPurchase)
-      this.tickAnalysisList = tickAnalysisList
+      this.getNewTicks = getNewTicks
       this.tradeOption = tradeOption
       observer.emit('log.bot.start', {
         again: !!sameTrade,
@@ -214,11 +214,7 @@ export default class Bot {
           ticks: this.ticks,
           ohlc: this.candles,
         }
-        for (const tickAnalysis of this.tickAnalysisList) {
-          tickAnalysis.call({
-            ticks,
-          })
-        }
+        this.getNewTicks(ticks)
         if (this.purchaseCtrl) {
           this.purchaseCtrl.updateTicks(ticks)
         }

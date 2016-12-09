@@ -16,15 +16,12 @@ Blockly.Blocks.tick_analysis = {
 Blockly.JavaScript.tick_analysis = (block) => {
   const stack = Blockly.JavaScript.statementToCode(block, 'TICKANALYSIS_STACK')
   return `
-    tick_analysis_list.push(function tick_analysis(){
-      try {
+    (function(){
+      var ticks = getNewTicks();
+      while (true) {
         ${stack}
-      } catch (e) { 
-        if (e.name !== 'BlocklyError') {
-          Bot.notifyError(e);
-          throw e;
-        }
+        ticks = getNewTicks()
       }
-    });
+    })();
   `
 }
