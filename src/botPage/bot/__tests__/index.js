@@ -39,7 +39,7 @@ describe('Bot', () => {
         error = _error
         done()
       }, true)
-      bot.start('FakeToken', null, null, null, null)
+      bot.start('FakeToken', null, null, null)
     })
     it('fake token should cause an error', () => {
       expect(error).to.have.deep.property('.error.code')
@@ -53,7 +53,6 @@ describe('Bot', () => {
       }, true)
       observer.register('bot.stop', () => {
         bot.start(token, option, () => observer.emit('test.waiting_for_purchase'), () => {
-        }, () => {
         })
       }, true)
       bot.stop()
@@ -69,7 +68,6 @@ describe('Bot', () => {
             done()
           }, true)
           bot.start(token, option, () => observer.emit('test.waiting_for_purchase'), () => {
-          }, () => {
           })
         })
       }, true)
@@ -95,7 +93,7 @@ describe('Bot', () => {
               this.purchase('DIGITEVEN')
             }
           }, () => {
-          }, function afterPurchase() {
+          }, false, function afterPurchase() {
             finishedContractFromFinishFunction = this.finishedContract
           })
         })
@@ -113,12 +111,12 @@ describe('Bot', () => {
     let finishedContractFromFinishSignal
     let numOfTicks = 0
     before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
-      bot.start(token, option, function afterPurchase() {
+      bot.start(token, option, function beforePurchase() {
         if (++numOfTicks === 3) {
           this.purchase('DIGITEVEN')
         }
       }, () => {
-      }, (_finishedContract) => {
+      }, true, (_finishedContract) => {
         finishedContractFromFinishFunction = _finishedContract
       })
       observer.register('bot.stop', (_finishedContractFromFinishSignal) => {

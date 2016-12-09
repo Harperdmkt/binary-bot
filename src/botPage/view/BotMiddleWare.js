@@ -17,7 +17,9 @@ export const BotApi = {
     dp.render()
   },
   start: (...args) => {
-    bot.start(...args, ticks => observer.emit('global.ticks', ticks))
+    bot.start(...args,
+      afterPurchaseInfo => observer.emit('global.afterPurchaseInfo', afterPurchaseInfo),
+      ticks => observer.emit('global.ticks', ticks))
   },
   shouldRestartOnError: bot.shouldRestartOnError.bind(bot),
   restartOnError: bot.restartOnError.bind(bot),
@@ -50,6 +52,11 @@ export const BotApi = {
 export default class BotMiddleWare {
   constructor(code) {
     const initFunc = (interpreter, scope) => {
+      interpreter.setProperty(scope, 'getAfterPurchaseInfo',
+        interpreter.createAsyncFunction((callback) => {
+          observer.register('global.afterPurchaseInfo', afterPurchaseInfo =>
+            callback(interpreter.nativeToPseudo(afterPurchaseInfo)), true)
+        }))
       interpreter.setProperty(scope, 'getNewTicks',
         interpreter.createAsyncFunction((callback) => {
           observer.register('global.ticks', ticks =>
