@@ -14,6 +14,7 @@ import MakeSimpleStrategy from './tours/makeSimpleStrategy'
 import { logHandler } from './logger'
 import { SaveXml } from './react-components/SaveXml'
 import { RestartTimeout } from './react-components/RestartTimeout'
+import { BotApi } from './BotMiddleWare'
 
 let realityCheckTimeout
 
@@ -240,7 +241,7 @@ export default class View {
           e.preventDefault()
         }
         stopRealityCheck()
-        window.Bot.stop()
+        BotApi.stop()
       })
       .hide()
 
@@ -448,8 +449,8 @@ export default class View {
           removeAllTokens()
           this.updateTokenList()
         }
-        window.Bot.stop()
-        if (window.Bot.shouldRestartOnError()) {
+        BotApi.stop()
+        if (BotApi.shouldRestartOnError()) {
           ReactDOM.render(
             <RestartTimeout
             timeout="3"

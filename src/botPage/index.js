@@ -6,7 +6,7 @@ import Backbone from 'backbone'
 import $ from 'jquery'
 import View from './view'
 import { setAppId } from '../common/appId'
-import { bot } from './BotMiddleWare'
+import { bot } from './bot'
 
 window._ = underscore
 window.Backbone = Backbone

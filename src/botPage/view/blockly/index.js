@@ -4,6 +4,7 @@ import { notifyError } from '../logger'
 import { isMainBlock, save, disable, deleteBlocksLoadedBy, addLoadersFirst, cleanUpOnLoad, addDomAsBlock, backwardCompatibility, fixCollapsedBlocks,
 } from './utils'
 import blocks from './blocks'
+import BotMiddleWare from '../BotMiddleWare'
 
 const disableStrayBlocks = () => {
   const topBlocks = Blockly.mainWorkspace.getTopBlocks()
@@ -235,7 +236,8 @@ export default class _Blockly {
       }
     }
     if (code) {
-      eval(code); // eslint-disable-line no-eval
+      const botMiddleWare = new BotMiddleWare(code)
+      botMiddleWare.run()
       $('#summaryPanel')
         .show()
     }

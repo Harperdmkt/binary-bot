@@ -1,13 +1,13 @@
 import { observer } from 'binary-common-utils/lib/observer'
-import { bot } from './bot'
-import { notifyError } from './view/logger'
-import expect from '../common/expect'
-import math from '../common/math'
+import { bot } from '../bot'
+import { notifyError } from './logger'
+import expect from '../../common/expect'
+import math from '../../common/math'
 
 const intervals = []
 const timeouts = []
 
-window.Bot = {
+export const BotApi = {
   expect,
   math,
   addBlockByMagic: (blockType) => {
@@ -41,6 +41,16 @@ window.Bot = {
   notifyError,
   setInterval: (f, n) => intervals.push(setInterval(f, n)),
   setTimeout: (f, n) => timeouts.push(setTimeout(f, n)),
+  select: id => Blockly.mainWorkspace.highlightBlock(id),
 }
 
-export { bot } from './bot'
+window.Bot = BotApi
+
+export default class BotMiddleWare {
+  constructor(code) {
+    this.code = code
+  }
+  run() {
+    eval(this.code) // eslint-disable-line no-eval
+  }
+}
