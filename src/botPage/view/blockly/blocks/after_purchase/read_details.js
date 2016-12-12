@@ -19,6 +19,6 @@ Blockly.Blocks.read_details = {
 }
 Blockly.JavaScript.read_details = (block) => {
   const detailIndex = block.getFieldValue('DETAIL_INDEX')
-  const code = `afterPurchaseInfo.contractDetails[${parseInt(detailIndex.trim(), 10) - 1}]`
+  const code = `contractDetails[${parseInt(detailIndex.trim(), 10) - 1}]`
   return [code, Blockly.JavaScript.ORDER_ATOMIC]
 }

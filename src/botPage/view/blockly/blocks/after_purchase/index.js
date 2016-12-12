@@ -27,12 +27,12 @@ Blockly.Blocks.after_purchase = {
 Blockly.JavaScript.after_purchase = (block) => {
   const stack = Blockly.JavaScript.statementToCode(block, 'AFTERPURCHASE_STACK')
   const code = `
-    (function() {
-      var afterPurchaseInfo = getAfterPurchaseInfo();
+    function afterPurchase() {
+      var contractDetails = getAfterPurchaseInfo();
       Bot.select('${block.id}')
       ${stack}
       Bot.stop();
-    })();
+    }
   `
   return code
 }

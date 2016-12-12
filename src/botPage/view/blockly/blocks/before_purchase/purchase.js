@@ -20,6 +20,7 @@ Blockly.Blocks.purchase = {
 Blockly.JavaScript.purchase = (block) => {
   const purchaseList = block.getFieldValue('PURCHASE_LIST')
   const code = `beforePurchaseInfo.purchase('${purchaseList}');
+  break;
 `
   return code
 }

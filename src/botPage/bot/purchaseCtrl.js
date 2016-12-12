@@ -80,7 +80,7 @@ export default class PurchaseCtrl {
         observer.emit('purchase.finish', finishedContract)
         this.finishedContract = finishedContract
         this.contractDetails = createDetails(finishedContract)
-        this.afterPurchase()
+        this.afterPurchase(this.contractDetails)
       }
       observer.register('trade.update', tradeUpdate)
       observer.register('trade.finish', tradeFinish, true)
