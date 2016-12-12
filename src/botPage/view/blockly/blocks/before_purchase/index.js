@@ -24,17 +24,15 @@ Blockly.Blocks.before_purchase = {
 }
 Blockly.JavaScript.before_purchase = (block) => {
   const stack = Blockly.JavaScript.statementToCode(block, 'BEFOREPURCHASE_STACK')
-  const code = `before_purchase = function before_purchase(){
-    try {
-      Bot.select('${block.id}')
-      ${stack}
-    } catch (e) { 
-      if (e.name !== 'BlocklyError') {
-        Bot.notifyError(e);
-        throw e;
+  const code = `
+    (function() {
+      var beforePurchaseInfo = getBeforePurchaseInfo(); 
+      while (true) {
+        Bot.select('${block.id}')
+        ${stack}
+        beforePurchaseInfo = getBeforePurchaseInfo(); 
       }
-    }
-  };
+    })();
   `
   return code
 }

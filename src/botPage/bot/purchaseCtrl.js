@@ -57,7 +57,7 @@ export default class PurchaseCtrl {
         observer.emit('log.purchase.start', {
           proposals: this.proposals,
         })
-        this.beforePurchase()
+        this.beforePurchase(this)
       }
     }
   }

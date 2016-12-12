@@ -32,10 +32,7 @@ export default class Bot {
   constructor(api = null) {
     this.ticks = []
     this.candles = []
-    this.currentCandleInterval = 0
-    this.currentToken = ''
     this.balanceStr = ''
-    this.currentSymbol = ''
     this.unregisterOnFinish = []
     this.totalProfit = 0
     this.totalRuns = 0
@@ -55,7 +52,9 @@ export default class Bot {
     }
   }
   start(...args) {
-    const [token, tradeOption, beforePurchase, duringPurchase, sameTrade, afterPurchase, getNewTicks = () => {}] = args
+    const [token = '', tradeOption = {}, sameTrade = false,
+      beforePurchase = () => {}, duringPurchase = () => {},
+      afterPurchase = () => {}, getNewTicks = () => {}] = args
     this.startArgs = args
     if (!this.purchaseCtrl) {
       this.purchaseCtrl = new PurchaseCtrl(this.api, beforePurchase, duringPurchase, afterPurchase)

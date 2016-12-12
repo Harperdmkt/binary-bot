@@ -18,7 +18,9 @@ export const BotApi = {
   },
   start: (...args) => {
     bot.start(...args,
-      afterPurchaseInfo => observer.emit('global.afterPurchaseInfo', afterPurchaseInfo),
+      () => observer.emit('global.beforePurchaseInfo'),
+      () => observer.emit('global.duringPurchaseInfo'),
+      () => observer.emit('global.afterPurchaseInfo'),
       ticks => observer.emit('global.ticks', ticks))
   },
   shouldRestartOnError: bot.shouldRestartOnError.bind(bot),
@@ -52,10 +54,19 @@ export const BotApi = {
 export default class BotMiddleWare {
   constructor(code) {
     const initFunc = (interpreter, scope) => {
+      interpreter.setProperty(scope, 'getBeforePurchaseInfo',
+        interpreter.createAsyncFunction((callback) => {
+          observer.register('global.beforePurchaseInfo', () => {
+            callback(interpreter.nativeToPseudo({
+              purchase: (...args) => bot.purchaseCtrl.purchase(...args),
+              getContract: (...args) => bot.purchaseCtrl.getContract(...args),
+            }))
+          }, true)
+        }))
       interpreter.setProperty(scope, 'getAfterPurchaseInfo',
         interpreter.createAsyncFunction((callback) => {
-          observer.register('global.afterPurchaseInfo', afterPurchaseInfo =>
-            callback(interpreter.nativeToPseudo(afterPurchaseInfo)), true)
+          observer.register('global.afterPurchaseInfo', () =>
+            callback(interpreter.nativeToPseudo(bot.purchaseCtrl.contracDetails)), true)
         }))
       interpreter.setProperty(scope, 'getNewTicks',
         interpreter.createAsyncFunction((callback) => {

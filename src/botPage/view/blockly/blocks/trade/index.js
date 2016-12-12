@@ -92,10 +92,7 @@ Blockly.JavaScript.trade = (block) => {
       }
 
       if (typeof tradeOptions !== 'undefined') {
-        Bot.start('${account.trim()}', tradeOptions,
-        typeof before_purchase === 'undefined' ? function(){} : before_purchase,
-        typeof during_purchase === 'undefined' ? function(){} : during_purchase,
-        again);
+        Bot.start('${account.trim()}', tradeOptions, again);
       }
     };
     trade();

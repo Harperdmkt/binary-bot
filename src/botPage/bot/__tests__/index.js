@@ -4,6 +4,7 @@ import { observer } from 'binary-common-utils/lib/observer'
 import Bot from '../'
 import mockWebsocket from '../../../common/mock/websocket'
 
+const fakeToken = 'FakeToken'
 describe('Bot', () => {
   const option = {
     amount: 1,
@@ -39,7 +40,7 @@ describe('Bot', () => {
         error = _error
         done()
       }, true)
-      bot.start('FakeToken', null, null, null)
+      bot.start(fakeToken)
     })
     it('fake token should cause an error', () => {
       expect(error).to.have.deep.property('.error.code')
@@ -52,8 +53,7 @@ describe('Bot', () => {
         done()
       }, true)
       observer.register('bot.stop', () => {
-        bot.start(token, option, () => observer.emit('test.waiting_for_purchase'), () => {
-        })
+        bot.start(token, option, false, () => observer.emit('test.waiting_for_purchase'))
       }, true)
       bot.stop()
     })
@@ -67,8 +67,7 @@ describe('Bot', () => {
           observer.register('test.waiting_for_purchase', () => {
             done()
           }, true)
-          bot.start(token, option, () => observer.emit('test.waiting_for_purchase'), () => {
-          })
+          bot.start(token, option, false, () => observer.emit('test.waiting_for_purchase'))
         })
       }, true)
       bot.stop()
@@ -88,12 +87,11 @@ describe('Bot', () => {
             finishedContractFromFinishSignal = finishedContract
             done()
           }, true)
-          bot.start(token, option, function beforePurchase() {
+          bot.start(token, option, false, function beforePurchase() {
             if (++numOfTicks === 3) {
               this.purchase('DIGITEVEN')
             }
-          }, () => {
-          }, false, function afterPurchase() {
+          }, () => 0, function afterPurchase() {
             finishedContractFromFinishFunction = this.finishedContract
           })
         })
@@ -111,12 +109,11 @@ describe('Bot', () => {
     let finishedContractFromFinishSignal
     let numOfTicks = 0
     before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
-      bot.start(token, option, function beforePurchase() {
+      bot.start(token, option, true, function beforePurchase() {
         if (++numOfTicks === 3) {
           this.purchase('DIGITEVEN')
         }
-      }, () => {
-      }, true, (_finishedContract) => {
+      }, () => 0, (_finishedContract) => {
         finishedContractFromFinishFunction = _finishedContract
       })
       observer.register('bot.stop', (_finishedContractFromFinishSignal) => {
