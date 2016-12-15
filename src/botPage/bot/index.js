@@ -210,6 +210,7 @@ export default class Bot {
         }
         const ticks = {
           direction,
+          pipSize: Number(Number(this.pip).toExponential().substring(3)),
           ticks: this.ticks,
           ohlc: this.candles,
         }
@@ -217,10 +218,7 @@ export default class Bot {
         if (this.purchaseCtrl) {
           this.purchaseCtrl.updateTicks(ticks)
         }
-        observer.emit('bot.tickUpdate', {
-          ...ticks,
-          pip: this.pip,
-        })
+        observer.emit('bot.tickUpdate', ticks)
       }
       observer.register('api.tick', apiTick)
     }
