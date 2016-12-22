@@ -94,7 +94,7 @@ Blockly.JavaScript.trade = (block) => {
       }
 
       if (typeof tradeOptions !== 'undefined') {
-        Bot.start('${account.trim()}', tradeOptions, again);
+        Bot.start('${account.trim()}', tradeOptions, limitations, again);
       }
     };
     trade();

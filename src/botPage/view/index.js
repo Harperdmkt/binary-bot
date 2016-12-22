@@ -15,6 +15,7 @@ import { logHandler } from './logger'
 import { SaveXml } from './react-components/SaveXml'
 import { RestartTimeout } from './react-components/RestartTimeout'
 import { BotApi } from './BotMiddleWare'
+import { LimitsPanel } from './react-components/LimitsPanel'
 
 let realityCheckTimeout
 
@@ -330,11 +331,25 @@ export default class View {
         }
       })
 
+    const startBot = (limitations) => {
+      $('#stopButton').show()
+      $('#runButton').hide()
+      this.blockly.run(limitations)
+    }
+
     $('#runButton')
       .click(() => {
-        $('#stopButton').show()
-        $('#runButton').hide()
-        this.blockly.run()
+        const token = $('.account-id').first().attr('value')
+        const tokenObj = getToken(token)
+        if (tokenObj && tokenObj.hasTradeLimitation) {
+          ReactDOM.render(
+            <LimitsPanel
+            onSave={startBot}
+            />
+            , document.getElementById('limits-panel'))
+        } else {
+          startBot()
+        }
       })
 
     $('#resetButton')
@@ -372,6 +387,10 @@ export default class View {
       })
       .text('Log in')
 
+    $('#accountHistory').click(() => {
+      document.location =
+        `https://www.binary.com/${translator.getLanguage()}/user/statementws.html`
+    })
     $(document).keydown((e) => {
       if (e.which === 189) { // -
         if (e.ctrlKey) {

@@ -53,7 +53,7 @@ describe('Bot', () => {
         done()
       }, true)
       observer.register('bot.stop', () => {
-        bot.start(token, option, false, () => observer.emit('test.waiting_for_purchase'))
+        bot.start(token, option, {}, false, () => observer.emit('test.waiting_for_purchase'))
       }, true)
       bot.stop()
     })
@@ -67,7 +67,7 @@ describe('Bot', () => {
           observer.register('test.waiting_for_purchase', () => {
             done()
           }, true)
-          bot.start(token, option, false, () => observer.emit('test.waiting_for_purchase'))
+          bot.start(token, option, {}, false, () => observer.emit('test.waiting_for_purchase'))
         })
       }, true)
       bot.stop()
@@ -87,7 +87,7 @@ describe('Bot', () => {
             finishedContractFromFinishSignal = finishedContract
             done()
           }, true)
-          bot.start(token, option, false, function beforePurchase() {
+          bot.start(token, option, {}, false, function beforePurchase() {
             if (++numOfTicks === 3) {
               this.purchase('DIGITEVEN')
             }
@@ -109,7 +109,7 @@ describe('Bot', () => {
     let finishedContractFromFinishSignal
     let numOfTicks = 0
     before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
-      bot.start(token, option, true, function beforePurchase() {
+      bot.start(token, option, {}, true, function beforePurchase() {
         if (++numOfTicks === 3) {
           this.purchase('DIGITEVEN')
         }
