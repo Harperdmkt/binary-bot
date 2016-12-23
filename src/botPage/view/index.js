@@ -25,6 +25,7 @@ const showRealityCheck = () => {
 }
 
 const hideRealityCheck = () => {
+  $('#rc-err').hide()
   $('.blocker').hide()
   $('.reality-check').hide()
 }
@@ -313,17 +314,17 @@ export default class View {
           .click()
       })
 
-    $('#logout')
+    $('#logout, #logout-reality-check')
       .click(() => {
         logout()
+        hideRealityCheck()
         $('.logout').hide()
       })
 
-    $('#continueTrading')
+    $('#continue-trading')
       .click(() => {
         const time = parseInt($('#realityDuration').val(), 10)
         if (time >= 10 && time <= 120) {
-          $('#rc-err').hide()
           hideRealityCheck()
           startRealityCheck(time)
         } else {
@@ -387,7 +388,7 @@ export default class View {
       })
       .text('Log in')
 
-    $('#accountHistory').click(() => {
+    $('#statement-reality-check').click(() => {
       document.location =
         `https://www.binary.com/${translator.getLanguage()}/user/statementws.html`
     })
