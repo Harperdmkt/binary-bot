@@ -118,7 +118,7 @@ export default class View {
           $('.account-type').text(`${prefix}`)
         } else {
           $('.login-id-list').append(`<a href="#" value="${tokenInfo.token}"><li><span>${prefix}</span><div>${tokenInfo.account_name}</div></li></a>` +
-            '<div class="separator-line-thin-gray"></div>');
+            '<div class="separator-line-thin-gray"></div>')
         }
       }
     }
@@ -146,17 +146,18 @@ export default class View {
   }
   startTour() {
     const viewScope = this
-    $('#tours').on('change', function onChange() {
-      const value = $(this).val()
-      if (value === '') return
-      if (viewScope.activeTour) {
-        viewScope.activeTour.stop()
-      }
-      viewScope.activeTour = viewScope.tours[value]
-      viewScope.activeTour.start(() => {
-        viewScope.activeTour = null
-      })
-    })
+    $('#select-tour li:first')
+      .nextAll().click(function click() {
+         const value = $(this).attr('class')
+         if (value === '') return
+         if (viewScope.activeTour) {
+            viewScope.activeTour.stop()
+          }
+          viewScope.activeTour = viewScope.tours[value]
+          viewScope.activeTour.start(() => {
+            viewScope.activeTour = null
+          })
+       })
   }
   setFileBrowser() {
     const readFile = (f, dropEvent = {}) => {
@@ -190,7 +191,7 @@ export default class View {
     const handleDragOver = (e) => {
       e.stopPropagation()
       e.preventDefault()
-      e.dataTransfer.dropEffect = 'copy'; // eslint-disable-line no-param-reassign
+      e.dataTransfer.dropEffect = 'copy' // eslint-disable-line no-param-reassign
     }
 
     const dropZone = document.body
@@ -263,6 +264,26 @@ export default class View {
 
     $('.panel .content')
       .mousedown(e => e.stopPropagation()) // prevent content to trigger draggable
+
+    $('.tours')
+      .click(e => {
+        e.stopPropagation()
+        if ($('#select-tour').css('display') === 'none') {
+          $('#select-tour')
+            .fadeIn(100)
+        } else {
+          $('#select-tour')
+            .fadeOut(100)
+        }
+      })
+
+    $('body')
+      .click(() => {
+        if ($('#select-tour').css('display') === 'block') {
+          $('#select-tour')
+            .fadeOut(100)
+        }
+      })
 
     ReactDOM.render(
       <SaveXml
