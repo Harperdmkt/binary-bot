@@ -7,7 +7,9 @@ import $ from 'jquery'
 import View from './view'
 import { setAppId } from '../common/appId'
 import { bot } from './bot'
+import { load as loadLang } from '../common/lang'
 
+loadLang()
 window._ = underscore
 window.Backbone = Backbone
 window.$ = $

@@ -7,7 +7,7 @@ import { getTokenList, removeAllTokens, get as getStorage, set as setStorage, ge
 } from 'binary-common-utils/lib/storageManager'
 import TradeInfo from './tradeInfo'
 import _Blockly from './blockly'
-import { translator } from '../../common/translator'
+import { translate } from '../../common/i18n'
 import Welcome from './tours/welcome'
 import Introduction from './tours/introduction'
 import { logHandler } from './logger'
@@ -15,6 +15,7 @@ import { SaveXml } from './react-components/SaveXml'
 import { RestartTimeout } from './react-components/RestartTimeout'
 import { BotApi } from './BotMiddleWare'
 import { LimitsPanel } from './react-components/LimitsPanel'
+import { getLanguage } from '../../common/lang'
 
 let realityCheckTimeout
 
@@ -80,7 +81,6 @@ export default class View {
     this.tours = {}
     logHandler()
     this.tradeInfo = new TradeInfo()
-    this.addTranslationToUi()
     this.initPromise = new Promise((resolve) => {
       this.updateTokenList()
       this.blockly = new _Blockly()
@@ -122,23 +122,6 @@ export default class View {
         }
       }
     }
-  }
-  addTranslationToUi() {
-    $('[data-i18n-text]')
-      .each(function each() {
-        const contents = $(this).contents()
-        if (contents.length > 0) {
-          if (contents.get(0).nodeType === Node.TEXT_NODE) {
-            $(this).text(translator.translateText($(this)
-              .attr('data-i18n-text')))
-              .append(contents.slice(1))
-          }
-        } else {
-          $(this)
-            .text(translator.translateText($(this)
-              .attr('data-i18n-text')))
-        }
-      })
   }
   initTours() {
     this.tours.introduction = new Introduction()
@@ -183,7 +166,7 @@ export default class View {
           readFile(file, dropEvent)
         } else {
           observer.emit('ui.log.info', `${
-          translator.translateText('File is not supported:')} ${file.name}`)
+          translate('File is not supported:')} ${file.name}`)
         }
       }
     }
@@ -234,7 +217,7 @@ export default class View {
     const logout = () => {
       logoutAllTokens(() => {
         this.updateTokenList()
-        observer.emit('ui.log.info', translator.translateText('Logged you out!'))
+        observer.emit('ui.log.info', translate('Logged you out!'))
         clearRealityCheck()
       })
     }
@@ -403,13 +386,13 @@ export default class View {
     $('#login')
       .bind('click.login', () => {
         document.location = 'https://oauth.binary.com/oauth2/authorize?app_id=' +
-          `${getStorage('appId')}&l=${translator.getLanguage().toUpperCase()}`
+          `${getStorage('appId')}&l=${getLanguage().toUpperCase()}`
       })
       .text('Log in')
 
     $('#statement-reality-check').click(() => {
       document.location =
-        `https://www.binary.com/${translator.getLanguage()}/user/statementws.html`
+        `https://www.binary.com/${getLanguage()}/user/statementws.html`
     })
     $(document).keydown((e) => {
       if (e.which === 189) { // -
