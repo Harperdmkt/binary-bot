@@ -19,35 +19,21 @@ describe('Bot', () => {
   let api
   let bot
   const token = 'nmjKBPWxM00E8Fh'
-  before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
+  beforeAll(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
     observer.eventActionMap = {}
-    api = new CustomApi(mockWebsocket)
+    api = new CustomApi(observer, mockWebsocket)
     bot = new Bot(api)
     bot.initPromise.then(() => {
       done()
     })
   })
   it('initialize bot with the symbols', () => {
-    const markets = bot.symbol.activeSymbols.getMarkets()
+    const markets = bot.symbolApi.activeSymbols.getMarkets()
     expect(markets).to.be.an('Object')
       .and.to.have.property('forex')
   })
-  describe('Bot cannot start with a fake token', () => {
-    let error
-    before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
-      observer.register('api.error', (_error) => {
-        error = _error
-        done()
-      }, true)
-      bot.start('FakeToken', null, null, null)
-    })
-    it('fake token should cause an error', () => {
-      expect(error).to.have.deep.property('.error.code')
-        .that.is.equal('InvalidToken')
-    })
-  })
   describe('Start trading', () => {
-    before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
+    beforeAll(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
       observer.register('test.waiting_for_purchase', () => {
         done()
       }, true)
@@ -61,7 +47,7 @@ describe('Bot', () => {
     })
   })
   describe('Start the trade without real after purchase and before purchase functions', () => {
-    before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
+    beforeAll(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
       observer.register('bot.stop', () => {
         bot.initPromise.then(() => {
           observer.register('test.waiting_for_purchase', () => {
@@ -80,27 +66,23 @@ describe('Bot', () => {
     let finishedContractFromFinishFunction
     let finishedContractFromFinishSignal
     let numOfTicks = 0
-    before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
-      this.timeout('20000')
+    beforeAll(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
       observer.register('bot.stop', () => {
         bot.initPromise.then(() => {
           observer.register('bot.finish', (finishedContract) => {
             finishedContractFromFinishSignal = finishedContract
-            done()
           }, true)
           bot.start(token, option, function beforePurchase() {
             if (++numOfTicks === 3) {
               this.purchase('DIGITEVEN')
             }
-          }, () => {
-          }, function afterPurchase() {
+          }, () => {}, function afterPurchase() {
             finishedContractFromFinishFunction = this.finishedContract
+            done()
           })
         })
       }, true)
       bot.stop()
-    })
-    it('Before Purchase decides to purchase the trade', () => {
     })
     it('Calls the after purchase function when trade is finished', () => {
       expect(finishedContractFromFinishSignal).to.be.equal(finishedContractFromFinishFunction)
@@ -110,7 +92,7 @@ describe('Bot', () => {
     let finishedContractFromFinishFunction
     let finishedContractFromFinishSignal
     let numOfTicks = 0
-    before(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
+    beforeAll(function beforeAll(done) { // eslint-disable-line prefer-arrow-callback
       bot.start(token, option, function afterPurchase() {
         if (++numOfTicks === 3) {
           this.purchase('DIGITEVEN')
@@ -130,13 +112,5 @@ describe('Bot', () => {
     it('Calls the after purchase function when trade is finished', () => {
       expect(finishedContractFromFinishSignal).to.be.equal(finishedContractFromFinishFunction)
     })
-  })
-  after(function afterAll(done) { // eslint-disable-line prefer-arrow-callback
-    observer.register('bot.stop', () => {
-      observer.destroy()
-      api.destroy()
-      done()
-    })
-    bot.stop()
   })
 })
