@@ -1,15 +1,15 @@
 import { translate } from '../../../common/i18n';
 import { recoverFromError } from '../tools';
 import { info, notify } from '../broadcast';
-import { purchaseSuccessful } from './state/actions';
-import { BEFORE_PURCHASE } from './state/constants';
+import { purchaseSuccessful } from './actions';
+import { BEFORE_PURCHASE } from './constants';
 
 let delayIndex = 0;
 
 export default Engine => class Purchase extends Engine {
     purchase(contractType) {
         // Prevent calling purchase twice
-        if (this.store.getState().scope !== BEFORE_PURCHASE) {
+        if (this.store.getState().signal.stage !== BEFORE_PURCHASE) {
             return Promise.resolve();
         }
 
@@ -26,8 +26,8 @@ export default Engine => class Purchase extends Engine {
                 }
 
                 const unsubscribe = this.store.subscribe(() => {
-                    const { scope, proposalsReady } = this.store.getState();
-                    if (scope === BEFORE_PURCHASE && proposalsReady) {
+                    const { signal: { stage }, proposals: { proposalsReady } } = this.store.getState();
+                    if (stage === BEFORE_PURCHASE && proposalsReady) {
                         makeDelay().then(() => this.observer.emit('REVERT', 'before'));
                         unsubscribe();
                     }

@@ -64,17 +64,9 @@ export default class Interface extends ToolsInterface(TicksInterface(class {})) 
         );
     }
     getProposal(contractType) {
-        const proposals = this.get('proposals');
+        const { proposals: { proposalPayloads } } = this.tradeEngine.store.getState();
 
-        let proposal;
-
-        proposals.forEach(p => {
-            if (p.contractType === contractType) {
-                proposal = p;
-            }
-        });
-
-        return proposal;
+        return Array.from(proposalPayloads.values()).find(p => p.contractType === contractType);
     }
     getSellPrice() {
         const { bid_price: bidPrice, buy_price: buyPrice } = this.get('contract');

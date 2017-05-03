@@ -13,9 +13,9 @@ import OpenContract from './OpenContract';
 import Sell from './Sell';
 import Purchase from './Purchase';
 import Ticks from './Ticks';
-import rootReducer from './state/reducers';
-import * as constants from './state/constants';
-import { start } from './state/actions';
+import rootReducer from './reducers';
+import * as constants from './constants';
+import { start } from './actions';
 
 const watchBefore = store =>
     watchScope({
@@ -30,19 +30,22 @@ const watchDuring = store =>
 
 const watchScope = ({ store, stopScope, passScope, passFlag }) => {
     // in case watch is called after stop is fired
-    if (store.getState().scope === stopScope) {
+    if (store.getState().signal.stage === stopScope) {
         return Promise.resolve(false);
     }
     return new Promise(resolve => {
         const unsubscribe = store.subscribe(() => {
             const newState = store.getState();
+            const shouldPass = passFlag === 'proposalsReady'
+                ? newState.proposals.proposalsReady
+                : newState.signal.openContract;
 
-            if (newState.scope === passScope && newState[passFlag]) {
+            if (newState.signal.stage === passScope && shouldPass) {
                 unsubscribe();
                 resolve(true);
             }
 
-            if (newState.scope === stopScope) {
+            if (newState.signal.stage === stopScope) {
                 unsubscribe();
                 resolve(false);
             }

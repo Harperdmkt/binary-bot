@@ -1,7 +1,7 @@
 import { translate } from '../../../common/i18n';
 import { recoverFromError, doUntilDone } from '../tools';
 import { notify } from '../broadcast';
-import { DURING_PURCHASE } from './state/constants';
+import { DURING_PURCHASE } from './constants';
 
 let delayIndex = 0;
 
@@ -11,7 +11,7 @@ export default Engine => class Sell extends Engine {
     }
     sellAtMarket() {
         // Prevent calling sell twice
-        if (this.store.getState().scope !== DURING_PURCHASE) {
+        if (this.store.getState().signal.stage !== DURING_PURCHASE) {
             return Promise.resolve();
         }
 

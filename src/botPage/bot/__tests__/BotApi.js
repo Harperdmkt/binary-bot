@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import Interface from '../Interface';
 import { createScope } from '../CliTools';
 
-const $scope = createScope();
+const $stage = createScope();
 
-const botInterface = new Interface($scope);
+const botInterface = new Interface($stage);
 
 const Bot = botInterface.getInterface('Bot');
 
@@ -15,7 +15,7 @@ describe('Interface', () => {
         expect(alert.toString().includes('native')).equal(false);
     });
     it('isInside should check if the api is inside the context', () => {
-        expect(botInterface.tradeEngine.scope).not.equal('before');
+        expect(botInterface.tradeEngine.store.getState().signal.stage).not.equal('BEFORE_PURCHASE');
     });
     describe('Bot can be started correctly', () => {
         let stay;
@@ -41,7 +41,7 @@ describe('Interface', () => {
         });
 
         it('context is inside before', () => {
-            expect(botInterface.tradeEngine.store.getState().scope).equal('BEFORE_PURCHASE');
+            expect(botInterface.tradeEngine.store.getState().signal.stage).equal('BEFORE_PURCHASE');
         });
 
         it('Loop stayed on correctly', () => {

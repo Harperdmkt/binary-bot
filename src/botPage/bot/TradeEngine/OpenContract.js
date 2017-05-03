@@ -1,6 +1,6 @@
 import { doUntilDone } from '../tools';
 import { contract as broadcastContract } from '../broadcast';
-import { sell, openContractReceived } from './state/actions';
+import { sell, openContractReceived } from './actions';
 
 export default Engine => class OpenContract extends Engine {
     observeOpenContract() {
