@@ -6,7 +6,7 @@ describe('Stage actions', () => {
     it('Start if the state is stop', () => {
         toBeCalledWith({
             action    : stage.start,
-            state     : constants.STOP,
+            state     : { stage: constants.STOP },
             calledWith: { type: constants.START },
         });
     });
@@ -19,7 +19,7 @@ describe('Stage actions', () => {
     it('proposals received if the state is started', () => {
         toBeCalledWith({
             action    : stage.proposalsReceived,
-            state     : constants.STARTED,
+            state     : { stage: constants.STARTED },
             calledWith: { type: constants.PROPOSALS_RECEIVED },
         });
     });
@@ -32,7 +32,7 @@ describe('Stage actions', () => {
     it('purchase succeeded if the state is proposals ready', () => {
         toBeCalledWith({
             action    : stage.purchaseSucceeded,
-            state     : constants.PROPOSALS_READY,
+            state     : { stage: constants.PROPOSALS_READY },
             calledWith: { type: constants.PURCHASE_SUCCEEDED },
         });
     });
@@ -45,7 +45,7 @@ describe('Stage actions', () => {
     it('purchase failed if the state is proposals ready', () => {
         toBeCalledWith({
             action    : stage.purchaseFailed,
-            state     : constants.PROPOSALS_READY,
+            state     : { stage: constants.PROPOSALS_READY },
             calledWith: { type: constants.PURCHASE_FAILED },
         });
     });
@@ -58,7 +58,7 @@ describe('Stage actions', () => {
     it('open contract received if the state is successful purchase', () => {
         toBeCalledWith({
             action    : stage.openContractReceived,
-            state     : constants.SUCCESSFUL_PURCHASE,
+            state     : { stage: constants.SUCCESSFUL_PURCHASE },
             calledWith: { type: constants.OPEN_CONTRACT_RECEIVED },
         });
     });
@@ -71,7 +71,7 @@ describe('Stage actions', () => {
     it('sell succeeded if the state is open contract', () => {
         toBeCalledWith({
             action    : stage.sellSucceeded,
-            state     : constants.OPEN_CONTRACT,
+            state     : { stage: constants.OPEN_CONTRACT },
             calledWith: { type: constants.SELL_SUCCEEDED },
         });
     });

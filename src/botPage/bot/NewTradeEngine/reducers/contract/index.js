@@ -1,4 +1,4 @@
-import { ADD_CONTRACT } from '../constants';
+import { ADD_CONTRACT } from '../../constants';
 
 const contract = (state = {}, action) => {
     switch (action.type) {

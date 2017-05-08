@@ -1,5 +1,6 @@
 export const STOP = 'STOP';
-export const INIT = 'INIT';
+export const INITIALIZE = 'INITIALIZE';
+export const INITIALIZED = 'INITIALIZED';
 export const INVALID = 'INVALID';
 export const START = 'START';
 export const STARTED = 'STARTED';

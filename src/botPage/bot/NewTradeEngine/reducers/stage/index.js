@@ -4,6 +4,8 @@ const initialState = constants.STOP;
 
 const stage = (state = initialState, action) => {
     switch (action.type) {
+        case constants.INITIALIZE:
+            return constants.INITIALIZED;
         case constants.START:
             return constants.STARTED;
         case constants.PROPOSALS_RECEIVED:

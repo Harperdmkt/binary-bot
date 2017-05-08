@@ -1,5 +1,5 @@
-import { ADD_CONTRACT, INVALID } from '../constants';
-import contract from './contract';
+import { ADD_CONTRACT, INVALID } from '../../constants';
+import contract from './';
 
 describe('Contract reducer', () => {
     it('initial state', () => {

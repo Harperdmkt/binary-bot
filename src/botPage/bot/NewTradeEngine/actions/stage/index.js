@@ -1,7 +1,7 @@
 import * as constants from '../../constants';
 
 const actIfInStage = (dispatch, getState, expectedStage, type) => {
-    const stage = getState();
+    const { stage } = getState();
     if (stage === expectedStage) {
         dispatch({ type });
     }

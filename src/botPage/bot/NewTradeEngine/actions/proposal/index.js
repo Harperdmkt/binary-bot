@@ -6,7 +6,7 @@ const isTradeOptionTheSame = (oldOpt, newOpt) =>
     );
 
 export const makeProposals = newOpt => (dispatch, getState) => {
-    const { proposals: { tradeOption: oldOpt } } = getState();
+    const { proposal: { proposals: { tradeOption: oldOpt } } } = getState();
     if (!isTradeOptionTheSame(oldOpt, newOpt)) {
         dispatch({
             type: constants.ADD_TRADE_OPTION,
@@ -16,7 +16,7 @@ export const makeProposals = newOpt => (dispatch, getState) => {
 };
 
 export const updateProposal = ({ proposal, passthrough }) => (dispatch, getState) => {
-    const { proposals: { forgottenProposals } } = getState();
+    const { proposal: { proposals: { forgottenProposals } } } = getState();
     const { uuid } = passthrough;
 
     if (!forgottenProposals.includes(uuid)) {
@@ -31,7 +31,7 @@ export const updateProposal = ({ proposal, passthrough }) => (dispatch, getState
 };
 
 export const proposalsReady = () => (dispatch, getState) => {
-    const { proposals: { tradeOption, proposalPayloads } } = getState();
+    const { proposal: { proposals: { tradeOption, proposalPayloads } } } = getState();
 
     if (tradeOption.contractTypes.length === proposalPayloads.size) {
         dispatch({ type: constants.PROPOSALS_READY });
