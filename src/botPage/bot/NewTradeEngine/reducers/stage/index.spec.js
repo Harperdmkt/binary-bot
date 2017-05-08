@@ -8,6 +8,9 @@ describe('Stage Reducer', () => {
     it('Initial state', () => {
         expect((state = stage(state, action(constants.INVALID)))).toEqual(constants.STOP);
     });
+    it('Fatal error occurred during trade', () => {
+        expect(stage(constants.STARTED, action(constants.ERROR_OCCURRED))).toEqual(constants.STOP);
+    });
     it('Engine initialized with token, and market', () => {
         expect((state = stage(state, action(constants.INITIALIZE)))).toEqual(constants.INITIALIZED);
     });

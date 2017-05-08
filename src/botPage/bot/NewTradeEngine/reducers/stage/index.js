@@ -4,6 +4,8 @@ const initialState = constants.STOP;
 
 const stage = (state = initialState, action) => {
     switch (action.type) {
+        case constants.ERROR_OCCURRED:
+            return constants.STOP;
         case constants.INITIALIZE:
             return constants.INITIALIZED;
         case constants.START:

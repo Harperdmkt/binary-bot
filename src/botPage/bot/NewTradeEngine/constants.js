@@ -1,4 +1,5 @@
 export const STOP = 'STOP';
+export const ERROR_OCCURRED = 'ERROR_OCCURRED';
 export const INITIALIZE = 'INITIALIZE';
 export const INITIALIZED = 'INITIALIZED';
 export const INVALID = 'INVALID';
