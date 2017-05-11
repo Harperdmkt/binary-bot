@@ -40,6 +40,8 @@ export default class Interpreter {
 
                 interpreter.setProperty(pseudoBotIf, 'sellAtMarket', this.createAsync(interpreter, BotIf.sellAtMarket));
 
+                interpreter.setProperty(pseudoBotIf, 'init', this.createAsync(interpreter, BotIf.init));
+
                 interpreter.setProperty(scope, 'Bot', pseudoBotIf);
 
                 interpreter.setProperty(
