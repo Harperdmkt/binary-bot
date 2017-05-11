@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import * as constants from '../../constants';
 
 const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
@@ -9,8 +10,8 @@ const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
 
 export const init = data => (dispatch, getState) => {
     const { stage: { name: stage }, balance, tickSignal } = getState();
-    if (stage === constants.STOP && balance.balance && tickSignal) {
-        dispatch({ type: constants.INITIALIZE, data });
+    if (stage === constants.STOP && balance.get('balance') && tickSignal) {
+        dispatch({ type: constants.INITIALIZE, data: new Map(data) });
     }
 };
 export const start = () => (...args) => actIfInStage(...args, constants.INITIALIZED, constants.START);

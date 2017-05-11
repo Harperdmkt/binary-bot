@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { doUntilDone } from '../../../tools';
 import * as constants from '../../constants';
 
@@ -9,7 +10,7 @@ export const balance = token => (dispatch, getState, $scope) => {
     api.events.on('balance', r => {
         const { balance: { balance: b, currency } } = r;
 
-        const data = { balance: Number(b).toFixed(2), currency };
+        const data = new Map({ balance: Number(b).toFixed(2), currency });
         dispatch({ type: constants.BALANCE_RECEIVED, data });
     });
 

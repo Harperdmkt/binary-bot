@@ -7,8 +7,8 @@ describe('initial requests (tick and balance)', () => {
         await new Promise(resolve => {
             balance('Xkq6oGFEHh6hJH8')(
                 action => {
-                    expect(action.data.currency).toEqual('USD');
-                    expect(typeof +action.data.balance).toEqual('number');
+                    expect(action.data.get('currency')).toEqual('USD');
+                    expect(typeof +action.data.get('balance')).toEqual('number');
                     expect(action.type === constants.BALANCE_RECEIVED);
                     resolve();
                 },

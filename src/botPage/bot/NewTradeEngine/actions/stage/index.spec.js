@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import * as constants from '../../constants';
 import { toBeCalledWith, notToBeCalled } from '../tools';
 import * as stage from './';
@@ -10,10 +11,10 @@ describe('Stage actions', () => {
             args  : data,
             state : {
                 stage     : { name: constants.STOP },
-                balance   : { balance: '123.00', currency: 'USD' },
+                balance   : new Map({ balance: '123.00', currency: 'USD' }),
                 tickSignal: new Date().getTime(),
             },
-            calledWith: { type: constants.INITIALIZE, data },
+            calledWith: { type: constants.INITIALIZE, data: new Map(data) },
         });
     });
     it('Do not initialize if the state is already initialized or balance or tick is not ready', () => {
@@ -22,7 +23,7 @@ describe('Stage actions', () => {
             args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
             state : {
                 stage     : { name: constants.INITIALIZED },
-                balance   : { balance: '123.00', currency: 'USD' },
+                balance   : new Map({ balance: '123.00', currency: 'USD' }),
                 tickSignal: new Date().getTime(),
             },
         });
@@ -31,7 +32,7 @@ describe('Stage actions', () => {
             args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
             state : {
                 stage     : { name: constants.STOP },
-                balance   : { balance: '', currency: '' },
+                balance   : new Map({ balance: '', currency: '' }),
                 tickSignal: new Date().getTime(),
             },
         });
@@ -40,7 +41,7 @@ describe('Stage actions', () => {
             args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
             state : {
                 stage     : { name: constants.STOP },
-                balance   : { balance: '123.00', currency: 'USD' },
+                balance   : new Map({ balance: '123.00', currency: 'USD' }),
                 tickSignal: 0,
             },
         });

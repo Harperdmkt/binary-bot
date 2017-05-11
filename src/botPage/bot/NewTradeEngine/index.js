@@ -22,7 +22,7 @@ export default class Bot {
     async init(token, options) {
         this.store.dispatch(tick(options.symbol));
         this.store.dispatch(balance(token));
-        await stateConditionPromise(this.store, state => state.tickSignal && state.balance.balance);
+        await stateConditionPromise(this.store, state => state.tickSignal && state.balance.get('balance'));
         this.store.dispatch(init({ token, options }));
         return stateConditionPromise(this.store, state => state.stage.name === constants.INITIALIZED);
     }
