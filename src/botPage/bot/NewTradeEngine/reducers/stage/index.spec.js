@@ -1,8 +1,7 @@
-import { Map } from 'immutable';
 import stage from './';
 import * as constants from '../../constants';
 
-const action = (type, data) => ({ type, data });
+const action = type => ({ type });
 
 describe('Stage Reducer', () => {
     let state;
@@ -13,12 +12,9 @@ describe('Stage Reducer', () => {
         expect(stage(constants.STARTED, action(constants.ERROR_OCCURRED))).toEqual({ name: constants.STOP });
     });
     it('Engine initialized with token, and market', () => {
-        expect(
-            (state = stage(
-                state,
-                action(constants.INITIALIZE, new Map({ token: 'Token', options: { symbol: 'R_100' } }))
-            ))
-        ).toEqual({ name: constants.INITIALIZED, data: new Map({ token: 'Token', options: { symbol: 'R_100' } }) });
+        expect((state = stage(state, action(constants.INITIALIZE)))).toEqual({
+            name: constants.INITIALIZED,
+        });
     });
     it('Engine started', () => {
         expect((state = stage(state, action(constants.START)))).toEqual({ name: constants.STARTED });
