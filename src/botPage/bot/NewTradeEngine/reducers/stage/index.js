@@ -1,23 +1,23 @@
 import * as constants from '../../constants';
 
-const initialState = { name: constants.STOP };
+const initialState = constants.STOP;
 
 const stage = (state = initialState, action) => {
     switch (action.type) {
         case constants.ERROR_OCCURRED:
-            return { name: constants.STOP };
+            return constants.STOP;
         case constants.SELL_SUCCEEDED:
         case constants.INITIALIZE:
-            return { name: constants.INITIALIZED };
+            return constants.INITIALIZED;
         case constants.START:
         case constants.PURCHASE_FAILED:
-            return { name: constants.STARTED };
+            return constants.STARTED;
         case constants.PROPOSALS_RECEIVED:
-            return { name: constants.PROPOSALS_READY };
+            return constants.PROPOSALS_READY;
         case constants.PURCHASE_SUCCEEDED:
-            return { name: constants.SUCCESSFUL_PURCHASE };
+            return constants.SUCCESSFUL_PURCHASE;
         case constants.OPEN_CONTRACT_RECEIVED:
-            return { name: constants.OPEN_CONTRACT };
+            return constants.OPEN_CONTRACT;
         default:
             return state;
     }
