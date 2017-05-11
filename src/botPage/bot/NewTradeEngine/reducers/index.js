@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import init from './init';
+import tickSignal from './tickSignal';
+import balance from './balance';
 import contract from './contract';
 import proposal from './proposal';
 import stage from './stage';
 
 export default combineReducers({
-    init,
+    tickSignal,
+    balance,
     stage,
     proposal,
     contract,

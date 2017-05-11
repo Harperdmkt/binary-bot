@@ -3,22 +3,28 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/';
 import * as constants from './constants';
 import { init, start } from './actions/stage';
+import { tick, balance } from './actions/init';
+
+const stateConditionPromise = (store, condition) =>
+    new Promise(resolve => {
+        const unsubscribe = store.subscribe(() => {
+            if (condition(store.getState())) {
+                resolve();
+                unsubscribe();
+            }
+        });
+    });
 
 export default class Bot {
     constructor($scope) {
         this.store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument($scope)));
     }
-    init(token, options) {
-        this.store.dispatch(init(token, options));
-        return new Promise(resolve => {
-            const unsubscribe = this.store.subscribe(() => {
-                const { stage: { name } } = this.store.getState();
-                if (name === constants.INITIALIZED) {
-                    resolve();
-                    unsubscribe();
-                }
-            });
-        });
+    async init(token, options) {
+        this.store.dispatch(tick(options.symbol));
+        this.store.dispatch(balance(token));
+        await stateConditionPromise(this.store, state => state.tickSignal && state.balance.balance);
+        this.store.dispatch(init({ token, options }));
+        return stateConditionPromise(this.store, state => state.stage.name === constants.INITIALIZED);
     }
     start() {
         this.store.dispatch(start());

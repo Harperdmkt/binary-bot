@@ -1,5 +1,4 @@
 import * as constants from '../../constants';
-import { requestTicks, requestBalance } from './requests';
 
 const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
     const { stage: { name: stage } } = getState();
@@ -8,18 +7,10 @@ const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
     }
 };
 
-const makeTicksAndBalance = async (token, symbol, $scope) => {
-    await requestTicks(symbol, $scope);
-    return requestBalance(token, $scope);
-};
-
-export const init = (token, options) => (dispatch, getState, $scope) => {
-    const { stage: { name: stage } } = getState();
-    const { symbol } = options;
-    if (stage === constants.STOP) {
-        makeTicksAndBalance(token, symbol, $scope)
-            .then(() => dispatch({ type: constants.INITIALIZE, data: { token, options } }))
-            .catch(() => dispatch({ type: constants.ERROR_OCCURRED }));
+export const init = data => (dispatch, getState) => {
+    const { stage: { name: stage }, balance, tickSignal } = getState();
+    if (stage === constants.STOP && balance.balance && tickSignal) {
+        dispatch({ type: constants.INITIALIZE, data });
     }
 };
 export const start = () => (...args) => actIfInStage(...args, constants.INITIALIZED, constants.START);

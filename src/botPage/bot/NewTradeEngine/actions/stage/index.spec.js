@@ -1,33 +1,49 @@
-import { createScope } from '../../../CliTools';
 import * as constants from '../../constants';
 import { toBeCalledWith, notToBeCalled } from '../tools';
 import * as stage from './';
 
 describe('Stage actions', () => {
-    it('ASYNC: Initialize if the state is STOP', async () => {
-        const thunk = stage.init('Xkq6oGFEHh6hJH8', { symbol: 'R_100' });
-        await new Promise(resolve => {
-            thunk(
-                action => {
-                    expect(action).toEqual({
-                        type: constants.INITIALIZE,
-                        data: {
-                            token  : 'Xkq6oGFEHh6hJH8',
-                            options: { symbol: 'R_100' },
-                        },
-                    });
-                    resolve();
-                },
-                () => ({ stage: { name: constants.STOP } }),
-                createScope()
-            );
+    it('Initialize if the state is STOP and balance and ticks are ready', async () => {
+        const data = { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } };
+        toBeCalledWith({
+            action: stage.init,
+            args  : data,
+            state : {
+                stage     : { name: constants.STOP },
+                balance   : { balance: '123.00', currency: 'USD' },
+                tickSignal: new Date().getTime(),
+            },
+            calledWith: { type: constants.INITIALIZE, data },
         });
     });
-    it('Do not initialize if the state is already initialized', () => {
-        const dispatch = jest.fn();
-        const thunk = stage.init('Xkq6oGFEHh6hJH8', { symbol: 'R_100' });
-        thunk(dispatch, () => ({ stage: { name: constants.INITIALIZED } }), createScope());
-        expect(dispatch).not.toBeCalled();
+    it('Do not initialize if the state is already initialized or balance or tick is not ready', () => {
+        notToBeCalled({
+            action: stage.init,
+            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
+            state : {
+                stage     : { name: constants.INITIALIZED },
+                balance   : { balance: '123.00', currency: 'USD' },
+                tickSignal: new Date().getTime(),
+            },
+        });
+        notToBeCalled({
+            action: stage.init,
+            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
+            state : {
+                stage     : { name: constants.STOP },
+                balance   : { balance: '', currency: '' },
+                tickSignal: new Date().getTime(),
+            },
+        });
+        notToBeCalled({
+            action: stage.init,
+            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
+            state : {
+                stage     : { name: constants.STOP },
+                balance   : { balance: '123.00', currency: 'USD' },
+                tickSignal: 0,
+            },
+        });
     });
     it('Start if the state is initialized', () => {
         toBeCalledWith({
