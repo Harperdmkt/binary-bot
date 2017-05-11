@@ -2,9 +2,7 @@ import { Map } from 'immutable';
 import { doUntilDone } from '../../../tools';
 import * as constants from '../../constants';
 
-export const balance = token => (dispatch, getState, $scope) => {
-    const { api } = $scope;
-
+export const balance = token => (dispatch, getState, { api }) => {
     const authPromise = new Promise(resolve => api.events.on('authorize', resolve));
 
     api.events.on('balance', r => {
@@ -28,11 +26,10 @@ export const balance = token => (dispatch, getState, $scope) => {
 let tickListenerKey;
 let currentSymbol;
 
-export const tick = symbol => (dispatch, getState, $scope) => {
+export const tick = symbol => (dispatch, getState, { ticksService }) => {
     if (!symbol || currentSymbol === symbol) {
         return;
     }
-    const { ticksService } = $scope;
 
     ticksService.stopMonitor({
         symbol: currentSymbol,

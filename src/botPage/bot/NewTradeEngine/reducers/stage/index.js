@@ -9,7 +9,7 @@ const stage = (state = initialState, action) => {
         case constants.INITIALIZE:
             return { name: constants.INITIALIZED, data: action.data };
         case constants.START:
-            return { name: constants.STARTED };
+            return { ...state, name: constants.STARTED };
         case constants.PROPOSALS_RECEIVED:
             return { name: constants.PROPOSALS_READY };
         case constants.PURCHASE_FAILED:
