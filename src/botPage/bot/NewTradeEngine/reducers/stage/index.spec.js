@@ -1,7 +1,6 @@
 import stage from './';
 import * as constants from '../../constants';
-
-const action = type => ({ type });
+import action from '../actionCreator';
 
 describe('Stage Reducer', () => {
     let state;
