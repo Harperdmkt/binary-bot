@@ -3,24 +3,33 @@ import { doUntilDone } from '../../../../tools';
 import * as actions from '../../../reducers/actions';
 
 const requestBalance = token => (dispatch, getState, { api }) => {
-    const authPromise = new Promise(resolve => api.events.on('authorize', resolve));
+    const { balance: { balance } } = getState();
 
-    api.events.on('balance', r => {
-        const { balance: { balance: b, currency } } = r;
+    if (balance) {
+        return Promise.resolve();
+    }
 
-        const data = new Map({ balance: Number(b).toFixed(2), currency });
-        dispatch({ type: actions.BALANCE_RECEIVED, data });
-    });
+    return new Promise(resolve => {
+        const authPromise = new Promise(r => api.events.on('authorize', r));
 
-    doUntilDone(() => api.authorize(token)).catch(e => {
-        throw e;
-    });
+        api.events.on('balance', r => {
+            const { balance: { balance: b, currency } } = r;
 
-    authPromise.then(() =>
-        doUntilDone(() => api.subscribeToBalance()).catch(e => {
+            const data = new Map({ balance: Number(b).toFixed(2), currency });
+            dispatch({ type: actions.BALANCE_RECEIVED, data });
+            resolve();
+        });
+
+        doUntilDone(() => api.authorize(token)).catch(e => {
             throw e;
-        })
-    );
+        });
+
+        authPromise.then(() =>
+            doUntilDone(() => api.subscribeToBalance()).catch(e => {
+                throw e;
+            })
+        );
+    });
 };
 
 export default requestBalance;
