@@ -1,5 +1,5 @@
-import tickSignal from './tickSignal';
-import * as constants from '../constants';
+import tickSignal from './';
+import * as constants from '../../constants';
 
 describe('tickSignal reducer', () => {
     let state;

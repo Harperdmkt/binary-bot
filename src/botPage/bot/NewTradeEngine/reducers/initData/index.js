@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import * as constants from '../constants';
+import * as constants from '../../constants';
 
 const initData = (state = new Map(), action) => {
     switch (action.type) {

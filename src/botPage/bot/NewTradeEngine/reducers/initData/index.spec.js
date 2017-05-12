@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
-import initData from './initData';
-import * as constants from '../constants';
+import initData from './';
+import * as constants from '../../constants';
 
 describe('initData reducer', () => {
     let state;

@@ -1,4 +1,4 @@
-import * as constants from '../constants';
+import * as constants from '../../constants';
 
 const tickSignal = (state = false, action) => {
     switch (action.type) {

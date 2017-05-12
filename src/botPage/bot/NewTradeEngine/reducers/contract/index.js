@@ -1,9 +1,9 @@
-import { ADD_CONTRACT } from '../../constants';
+import * as constants from '../../constants';
 
 const contract = (state = {}, action) => {
     switch (action.type) {
-        case ADD_CONTRACT:
-            return action.contract;
+        case constants.OPEN_CONTRACT_RECEIVED:
+            return action.data;
         default:
             return state;
     }
