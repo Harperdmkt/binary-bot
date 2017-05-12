@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
-import * as constants from '../../constants';
+import * as actions from '../../reducers/actions';
+import * as states from '../../reducers/states';
 
 const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
     const { stage: { name: stage } } = getState();
@@ -10,18 +11,15 @@ const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
 
 export const init = data => (dispatch, getState) => {
     const { stage: { name: stage }, balance, tickSignal } = getState();
-    if (stage === constants.STOP && balance.get('balance') && tickSignal) {
-        dispatch({ type: constants.INITIALIZE, data: new Map(data) });
+    if (stage === states.STOP && balance.get('balance') && tickSignal) {
+        dispatch({ type: actions.INITIALIZE, data: new Map(data) });
     }
 };
-export const start = () => (...args) => actIfInStage(...args, constants.INITIALIZED, constants.START);
-export const proposalsReceived = () => (...args) =>
-    actIfInStage(...args, constants.STARTED, constants.PROPOSALS_RECEIVED);
+export const start = () => (...args) => actIfInStage(...args, states.INITIALIZED, actions.START);
+export const proposalsReceived = () => (...args) => actIfInStage(...args, states.STARTED, actions.PROPOSALS_RECEIVED);
 export const purchaseSucceeded = () => (...args) =>
-    actIfInStage(...args, constants.PROPOSALS_READY, constants.PURCHASE_SUCCEEDED);
-export const purchaseFailed = () => (...args) =>
-    actIfInStage(...args, constants.PROPOSALS_READY, constants.PURCHASE_FAILED);
+    actIfInStage(...args, states.PROPOSALS_READY, actions.PURCHASE_SUCCEEDED);
+export const purchaseFailed = () => (...args) => actIfInStage(...args, states.PROPOSALS_READY, actions.PURCHASE_FAILED);
 export const openContractReceived = () => (...args) =>
-    actIfInStage(...args, constants.SUCCESSFUL_PURCHASE, constants.OPEN_CONTRACT_RECEIVED);
-export const sellSucceeded = () => (...args) =>
-    actIfInStage(...args, constants.OPEN_CONTRACT, constants.SELL_SUCCEEDED);
+    actIfInStage(...args, states.SUCCESSFUL_PURCHASE, actions.OPEN_CONTRACT_RECEIVED);
+export const sellSucceeded = () => (...args) => actIfInStage(...args, states.OPEN_CONTRACT, actions.SELL_SUCCEEDED);
