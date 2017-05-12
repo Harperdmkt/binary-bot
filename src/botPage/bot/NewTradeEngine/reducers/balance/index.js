@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import * as constants from '../../constants';
+import * as actions from '../actions';
 
 const initialState = new Map({
     balance : '',
@@ -8,7 +8,7 @@ const initialState = new Map({
 
 const init = (state = initialState, action) => {
     switch (action.type) {
-        case constants.BALANCE_RECEIVED:
+        case actions.BALANCE_RECEIVED:
             return action.data;
         default:
             return state;

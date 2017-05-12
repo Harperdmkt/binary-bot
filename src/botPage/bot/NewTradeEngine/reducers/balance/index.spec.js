@@ -1,13 +1,13 @@
 import { Map } from 'immutable';
 import init from './';
-import * as constants from '../../constants';
+import * as actions from '../actions';
 
 const action = type => ({ type });
 
 describe('Balance Reducer', () => {
     let state;
     it('Initial state', () => {
-        expect((state = init(state, action(constants.INVALID)))).toEqual(
+        expect((state = init(state, action(actions.INVALID)))).toEqual(
             new Map({
                 balance : '',
                 currency: '',
@@ -17,7 +17,7 @@ describe('Balance Reducer', () => {
     it('Balance received', () => {
         expect(
             (state = init(state, {
-                type: constants.BALANCE_RECEIVED,
+                type: actions.BALANCE_RECEIVED,
                 data: new Map({
                     balance : '123.00',
                     currency: 'USD',
@@ -33,7 +33,7 @@ describe('Balance Reducer', () => {
     it('Balance received', () => {
         expect(
             (state = init(state, {
-                type: constants.BALANCE_RECEIVED,
+                type: actions.BALANCE_RECEIVED,
                 data: new Map({
                     balance : '124.00',
                     currency: 'USD',

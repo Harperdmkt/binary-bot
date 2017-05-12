@@ -1,9 +1,9 @@
 import { Map } from 'immutable';
-import * as constants from '../../constants';
+import * as actions from '../actions';
 
 const initData = (state = new Map(), action) => {
     switch (action.type) {
-        case constants.INIT_DATA:
+        case actions.INIT_DATA:
             return action.data;
         default:
             return state;
