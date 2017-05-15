@@ -1,20 +1,13 @@
-import { Map } from 'immutable';
 import * as actions from '../../reducers/actions';
 import * as states from '../../reducers/states';
 
 const actIfInStage = (dispatch, getState, $scope, expectedStage, type) => {
-    const { stage: { name: stage } } = getState();
+    const { stage } = getState();
     if (stage === expectedStage) {
         dispatch({ type });
     }
 };
 
-export const init = data => (dispatch, getState) => {
-    const { stage: { name: stage }, balance, tickSignal } = getState();
-    if (stage === states.STOP && balance.get('balance') && tickSignal) {
-        dispatch({ type: actions.INITIALIZE, data: new Map(data) });
-    }
-};
 export const start = () => (...args) => actIfInStage(...args, states.INITIALIZED, actions.START);
 export const proposalsReceived = () => (...args) => actIfInStage(...args, states.STARTED, actions.PROPOSALS_RECEIVED);
 export const purchaseSucceeded = () => (...args) =>

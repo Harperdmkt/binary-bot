@@ -1,52 +1,9 @@
-import { Map } from 'immutable';
 import * as states from '../../reducers/states';
 import * as actions from '../../reducers/actions';
 import { toBeCalledWith, notToBeCalled } from '../tools';
 import * as stage from './';
 
 describe('Stage actions', () => {
-    it('Initialize if the state is STOP and balance and ticks are ready', async () => {
-        const data = { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } };
-        toBeCalledWith({
-            action: stage.init,
-            args  : data,
-            state : {
-                stage     : states.STOP,
-                balance   : new Map({ balance: '123.00', currency: 'USD' }),
-                tickSignal: new Date().getTime(),
-            },
-            calledWith: { type: actions.INITIALIZE, data: new Map(data) },
-        });
-    });
-    it('Do not initialize if the state is already initialized or balance or tick is not ready', () => {
-        notToBeCalled({
-            action: stage.init,
-            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
-            state : {
-                stage     : states.INITIALIZED,
-                balance   : new Map({ balance: '123.00', currency: 'USD' }),
-                tickSignal: new Date().getTime(),
-            },
-        });
-        notToBeCalled({
-            action: stage.init,
-            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
-            state : {
-                stage     : states.STOP,
-                balance   : new Map({ balance: '', currency: '' }),
-                tickSignal: new Date().getTime(),
-            },
-        });
-        notToBeCalled({
-            action: stage.init,
-            args  : { token: 'Xkq6oGFEHh6hJH8', options: { symbol: 'R_100' } },
-            state : {
-                stage     : states.STOP,
-                balance   : new Map({ balance: '123.00', currency: 'USD' }),
-                tickSignal: 0,
-            },
-        });
-    });
     it('Start if the state is initialized', () => {
         toBeCalledWith({
             action    : stage.start,
