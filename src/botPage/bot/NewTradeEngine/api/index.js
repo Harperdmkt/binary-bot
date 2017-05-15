@@ -1,10 +1,16 @@
+import * as states from '../states';
+
 class Bot {
     constructor($scope) {
         this.$scope = $scope;
-        this.store = {};
+        this.store = {
+            getState() {
+                return this.state;
+            },
+        };
     }
-    async init({ token, options }) {
-        this.store = { stage: 'INITIALIZED', token, options };
+    init({ token, options }) {
+        this.store.state = { stage: states.initialized, token, options };
     }
     getState() {
         return this.store.getState();
