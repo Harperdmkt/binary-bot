@@ -1,5 +1,4 @@
 export const ERROR_OCCURRED = 'ERROR_OCCURRED';
-export const INITIALIZE = 'INITIALIZE';
 export const INVALID = 'INVALID';
 export const START = 'START';
 export const PROPOSALS_RECEIVED = 'PROPOSALS_RECEIVED';

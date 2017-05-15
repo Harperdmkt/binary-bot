@@ -7,8 +7,6 @@ const stage = (state = initialState, action) => {
     switch (action.type) {
         case actions.ERROR_OCCURRED:
             return states.STOP;
-        case actions.INITIALIZE:
-            return states.INITIALIZING;
         case actions.SELL_SUCCEEDED:
         case actions.INIT_DATA:
             return states.INITIALIZED;
