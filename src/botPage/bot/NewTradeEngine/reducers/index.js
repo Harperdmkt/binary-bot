@@ -1,5 +1,5 @@
-import * as actions from '../actions';
-import * as states from '../states';
+import * as actions from '../constants/actions';
+import * as states from '../constants/states';
 
 const reducer = (state = { stage: states.STOPPED, initData: {} }, action) => {
     switch (action.type) {
