@@ -1,7 +1,10 @@
-const reducer = (state = { stage: 'stop' }, action) => {
+import * as actions from '../actions';
+import * as states from '../states';
+
+const reducer = (state = { stage: states.stopped }, action) => {
     switch (action.type) {
-        case 'init':
-            return { stage: 'initialized' };
+        case actions.init:
+            return { stage: states.initialized };
         default:
             return state;
     }
