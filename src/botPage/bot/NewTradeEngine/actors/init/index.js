@@ -2,8 +2,8 @@ import * as actions from '../../actions';
 import * as states from '../../states';
 
 const init = ({ initData, state: { stage } }) => {
-    if (stage === states.stopped) {
-        return Promise.resolve({ type: actions.init, initData });
+    if (stage === states.STOPPED) {
+        return Promise.resolve({ type: actions.INIT, initData });
     }
     return Promise.resolve();
 };

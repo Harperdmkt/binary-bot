@@ -1,2 +1,2 @@
-export const stopped = 'stopped';
-export const initialized = 'initialized';
+export const STOPPED = 'STOPPED';
+export const INITIALIZED = 'INITIALIZED';
