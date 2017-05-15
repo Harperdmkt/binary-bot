@@ -1,5 +1,5 @@
-import * as actions from '../actions';
-import * as states from '../states';
+import * as actions from '../../actions';
+import * as states from '../../states';
 
 const init = ({ initData, state: { stage } }) => {
     if (stage === states.stopped) {

@@ -1,5 +1,5 @@
-import * as actions from '../actions';
-import * as states from '../states';
+import * as actions from '../../actions';
+import * as states from '../../states';
 import init from './';
 
 describe('Init actor', () => {
