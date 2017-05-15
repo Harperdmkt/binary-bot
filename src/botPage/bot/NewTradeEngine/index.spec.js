@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { createScope } from '../CliTools';
 import * as states from './reducers/states';
 import Bot from './';
@@ -8,17 +7,16 @@ describe('bot api', () => {
 
     const options = { symbol: 'R_100' };
     const token = 'Xkq6oGFEHh6hJH8';
-    const data = new Map({ token, options });
 
     it('ASYNC: bot can be initialized with scope', async () => {
         await bot.init(token, options);
         const { stage } = bot.store.getState();
-        expect(stage).toEqual({ name: states.INITIALIZED, data });
+        expect(stage).toEqual(states.INITIALIZED);
     });
 
-    it('bot start should wait for the ticks and balance', () => {
+    it('start should work after initialization', () => {
         bot.start({});
         const { stage } = bot.store.getState();
-        expect(stage).toEqual({ name: states.STARTED, data });
+        expect(stage).toEqual(states.STARTED);
     });
 });

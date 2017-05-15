@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/';
 import * as states from './reducers/states';
 import { start } from './actions/stage';
-import initData from './actions/init';
+import initData from './actions/initData';
 
 const stateConditionPromise = (store, condition) =>
     new Promise(resolve => {
