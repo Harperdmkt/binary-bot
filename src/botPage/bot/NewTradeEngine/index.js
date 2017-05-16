@@ -12,13 +12,17 @@ class Bot {
         const data = { token, initOptions };
         await initializer({ data, store: this.store });
     }
-    // eslint-disable-next-line class-methods-use-this
+    /* eslint-disable class-methods-use-this */
     start(data) {
         const { initData: { initOptions } } = this.store.getState();
         const arg = { data: { ...data, ...initOptions }, store: this.store };
         starter(arg);
         proposalMaker(arg);
     }
+    watch() {
+        return new Promise(resolve => console.log(resolve));
+    }
+    /* eslint-enable */
 }
 
 export default Bot;
