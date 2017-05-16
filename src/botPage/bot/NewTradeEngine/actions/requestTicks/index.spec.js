@@ -3,7 +3,7 @@ import { toBeCalledWithAsync, notToBeCalled } from '../tools';
 import requestTicks from './';
 
 describe('requestTicks action', () => {
-    it('should not be called if symbol exists', async () => {
+    it('should not be called if symbol exists', () => {
         notToBeCalled({
             action: requestTicks,
             arg   : 'R_100',

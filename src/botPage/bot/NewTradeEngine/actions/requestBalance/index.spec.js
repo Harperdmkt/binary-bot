@@ -3,7 +3,7 @@ import * as actions from '../../constants/actions';
 import requestBalance from './';
 
 describe('requestBalance action', () => {
-    it('should not be called if balance exists', async () => {
+    it('should not be called if balance exists', () => {
         notToBeCalled({
             action: requestBalance,
             arg   : 'Xkq6oGFEHh6hJH8',
