@@ -1,15 +1,18 @@
-import { createStore } from 'redux';
-import reducers from './reducers';
+import createStore from './createStore';
 import init from './actors/init';
+import start from './actors/start';
 
 class Bot {
     constructor($scope) {
         this.$scope = $scope;
-        this.store = createStore(reducers);
+        this.store = createStore();
     }
     async init(initData) {
-        const action = await init({ initData, state: this.store.getState() });
-        this.store.dispatch(action);
+        await init({ initData, store: this.store });
+    }
+    // eslint-disable-next-line class-methods-use-this
+    start(tradeOption) {
+        start(tradeOption);
     }
 }
 
