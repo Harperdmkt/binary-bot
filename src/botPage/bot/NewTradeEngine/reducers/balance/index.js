@@ -1,10 +1,9 @@
-import { Map } from 'immutable';
 import * as actions from '../../constants/actions';
 
-const initialState = new Map({
+const initialState = {
     balance : '',
     currency: '',
-});
+};
 
 const init = (state = initialState, action) => {
     switch (action.type) {
