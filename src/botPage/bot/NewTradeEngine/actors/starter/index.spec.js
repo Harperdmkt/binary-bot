@@ -7,9 +7,9 @@ describe('Starter actor', () => {
         const store = createStore();
         const data = { contractTypes: ['CALL', 'PUT'] };
         await starter({ data, store });
-        const { stage, proposal, tradeOption } = store.getState();
+        const { stage, proposalStage, tradeOption } = store.getState();
         expect(stage).toEqual(states.STARTED);
-        expect(proposal).toEqual(states.WAITING_FOR_TWO_PROPOSALS);
+        expect(proposalStage).toEqual(states.WAITING_FOR_TWO_PROPOSALS);
         expect(tradeOption).toEqual(data);
     });
 });

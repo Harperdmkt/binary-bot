@@ -7,7 +7,7 @@ const proposalMaker = async ({ data, store }) => {
     store.dispatch(requestProposals(data));
     await waitForCondition(
         store,
-        state => state.proposal === states.TWO_PROPOSALS_RECEIVED || states.ONE_PROPOSAL_RECEIVED
+        state => state.proposalStage === states.TWO_PROPOSALS_RECEIVED || states.ONE_PROPOSAL_RECEIVED
     );
     store.dispatch({ type: actions.RECEIVE_PROPOSALS });
 };
