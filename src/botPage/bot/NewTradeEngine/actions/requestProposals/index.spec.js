@@ -3,7 +3,7 @@ import * as actions from '../../constants/actions';
 import requestProposals from './';
 
 describe('requestProposals action', () => {
-    it('should RECEIVE_PROPOSALS', async () => {
+    it('should UPDATE_PROPOSAL', async () => {
         await toBeCalledWithAsync({
             action: requestProposals,
             arg   : {
