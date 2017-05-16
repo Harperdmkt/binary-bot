@@ -2,6 +2,7 @@ import createStoreWithScope from './createStoreWithScope';
 import initializer from './actors/initializer';
 import starter from './actors/starter';
 import proposalMaker from './actors/proposalMaker';
+import watcher from './actors/watcher';
 
 class Bot {
     constructor($scope) {
@@ -20,7 +21,7 @@ class Bot {
         proposalMaker(arg);
     }
     watch() {
-        return new Promise(resolve => console.log(resolve));
+        return watcher({ store: this.store });
     }
     /* eslint-enable */
 }
