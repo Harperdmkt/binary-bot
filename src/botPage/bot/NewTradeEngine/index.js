@@ -1,6 +1,6 @@
 import createStore from './createStore';
-import init from './actors/init';
-import start from './actors/start';
+import initializer from './actors/initializer';
+import starter from './actors/starter';
 
 class Bot {
     constructor($scope) {
@@ -8,11 +8,11 @@ class Bot {
         this.store = createStore();
     }
     async init(initData) {
-        await init({ initData, store: this.store });
+        await initializer({ initData, store: this.store });
     }
     // eslint-disable-next-line class-methods-use-this
     start(tradeOption) {
-        start(tradeOption);
+        starter(tradeOption);
     }
 }
 

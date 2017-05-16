@@ -3,7 +3,7 @@ import requestTicks from '../../actions/requestTicks';
 import requestBalance from '../../actions/requestBalance';
 import waitForCondition from '../waitForCondition';
 
-const init = async ({ data, store }) => {
+const initializer = async ({ data, store }) => {
     const { token, initOptions: { symbol } } = data;
     store.dispatch(requestTicks(symbol));
     store.dispatch(requestBalance(token));
@@ -11,4 +11,4 @@ const init = async ({ data, store }) => {
     store.dispatch({ type: actions.INITIALIZE, data });
 };
 
-export default init;
+export default initializer;
