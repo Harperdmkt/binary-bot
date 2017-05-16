@@ -1,5 +1,4 @@
 import * as actions from '../../constants/actions';
-import { tradeOptionToProposal, doUntilDone, getUUID } from '../../../tools';
 
 const isTradeOptionTheSame = (oldOpt, newOpt) =>
     [
@@ -27,7 +26,7 @@ const isTradeOptionTheSame = (oldOpt, newOpt) =>
         return false;
     });
 
-const requestProposals = tradeOption => (dispatch, getState, { api }) => {
+const initProposals = tradeOption => (dispatch, getState) => {
     const { tradeOption: oldTradeOption } = getState();
 
     if (isTradeOptionTheSame(oldTradeOption, tradeOption)) {
@@ -41,20 +40,6 @@ const requestProposals = tradeOption => (dispatch, getState, { api }) => {
     } else if (contractTypes.length === 1) {
         dispatch({ type: actions.REQUEST_ONE_PROPOSAL });
     }
-
-    tradeOptionToProposal(tradeOption).map(proposal =>
-        doUntilDone(() =>
-            api.subscribeToPriceForContractProposal({
-                ...proposal,
-                passthrough: {
-                    contractType: proposal.contract_type,
-                    uuid        : getUUID(),
-                },
-            })
-        )
-    );
-
-    api.events.on('proposal', r => dispatch({ type: actions.UPDATE_PROPOSAL, data: r }));
 };
 
-export default requestProposals;
+export default initProposals;

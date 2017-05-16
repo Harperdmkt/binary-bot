@@ -3,7 +3,7 @@ import * as states from '../../constants/states';
 import start from './';
 
 describe('Start actor', () => {
-    it('should requestProposals and START', async () => {
+    it('should initProposals and START', async () => {
         const store = createStore();
         const data = { contractTypes: ['CALL', 'PUT'] };
         await start({ data, store });

@@ -1,8 +1,8 @@
 import * as actions from '../../constants/actions';
-import requestProposals from '../../actions/requestProposals';
+import initProposals from '../../actions/initProposals';
 
 const start = ({ data, store }) => {
-    store.dispatch(requestProposals(data));
+    store.dispatch(initProposals(data));
     store.dispatch({ type: actions.START, data });
 };
 
