@@ -6,9 +6,9 @@ import * as states from '../../constants/states';
 import init from './';
 
 describe('Init actor', () => {
-    it('should issue requestTicks and requestBalance, then should issue INITIALIZE', async () => {
+    it('should requestTicks and requestBalance, then should INITIALIZE', async () => {
         const store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument(createScope())));
-        const data = { initOptions: { symbol: 'R_100' } };
+        const data = { token: 'Xkq6oGFEHh6hJH8', initOptions: { symbol: 'R_100' } };
         await init({ data, store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.INITIALIZED);
