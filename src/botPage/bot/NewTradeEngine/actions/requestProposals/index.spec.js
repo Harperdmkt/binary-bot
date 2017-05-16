@@ -1,33 +1,42 @@
-import { toBeCalledWith, notToBeCalled } from '../tools';
+import { toBeCalledWithAsync } from '../tools';
 import * as actions from '../../constants/actions';
 import requestProposals from './';
 
 describe('requestProposals action', () => {
-    const tradeOption = { contractTypes: ['CALL'] };
-    it('should not do anything if tradeOption is the same', () => {
-        notToBeCalled({
+    it('should RECEIVE_PROPOSALS', async () => {
+        await toBeCalledWithAsync({
             action: requestProposals,
-            arg   : { contractTypes: ['CALL'] },
-            state : { tradeOption },
-        });
-    });
-    it('Should REQUEST_ONE_PROPOSAL', () => {
-        toBeCalledWith({
-            action    : requestProposals,
-            arg       : tradeOption,
-            state     : { tradeOption: {} },
-            calledWith: {
-                type: actions.REQUEST_ONE_PROPOSAL,
+            arg   : {
+                candleInterval: 60,
+                contractTypes : ['CALL', 'PUT'],
+                symbol        : 'R_100',
+                amount        : 1,
+                currency      : 'USD',
+                duration      : 5,
+                duration_unit : 't',
             },
-        });
-    });
-    it('Should REQUEST_TWO_PROPOSALS', () => {
-        toBeCalledWith({
-            action    : requestProposals,
-            arg       : { contractTypes: ['CALL', 'PUT'] },
-            state     : { tradeOption: {} },
+            state     : {},
             calledWith: {
-                type: actions.REQUEST_TWO_PROPOSALS,
+                type: actions.UPDATE_PROPOSAL,
+                data: expect.objectContaining({
+                    echo_req   : expect.any(Object),
+                    msg_type   : expect.any(String),
+                    req_id     : expect.any(Number),
+                    passthrough: {
+                        contractType: expect.any(String),
+                        uuid        : expect.any(String),
+                    },
+                    proposal: {
+                        ask_price    : expect.any(String),
+                        date_start   : expect.any(String),
+                        display_value: expect.any(String),
+                        id           : expect.any(String),
+                        longcode     : expect.any(String),
+                        payout       : expect.any(String),
+                        spot         : expect.any(String),
+                        spot_time    : expect.any(String),
+                    },
+                }),
             },
         });
     });
