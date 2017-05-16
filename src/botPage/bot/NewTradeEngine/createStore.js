@@ -1,8 +1,6 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import { createScope } from '../CliTools';
-import rootReducer from './reducers/';
+import createStoreWithScope from './createStoreWithScope';
 
-const customCreateStore = () => createStore(rootReducer, applyMiddleware(thunk.withExtraArgument(createScope())));
+const createStore = () => createStoreWithScope(createScope());
 
-export default customCreateStore;
+export default createStore;

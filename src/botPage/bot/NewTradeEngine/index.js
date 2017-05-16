@@ -1,18 +1,23 @@
-import createStore from './createStore';
+import createStoreWithScope from './createStoreWithScope';
 import initializer from './actors/initializer';
 import starter from './actors/starter';
+import proposalMaker from './actors/proposalMaker';
 
 class Bot {
     constructor($scope) {
         this.$scope = $scope;
-        this.store = createStore();
+        this.store = createStoreWithScope(this.$scope);
     }
-    async init(initData) {
-        await initializer({ initData, store: this.store });
+    async init(token, initOptions) {
+        const data = { token, initOptions };
+        await initializer({ data, store: this.store });
     }
     // eslint-disable-next-line class-methods-use-this
-    start(tradeOption) {
-        starter(tradeOption);
+    start(data) {
+        const { initData: { initOptions } } = this.store.getState();
+        const arg = { data: { ...data, ...initOptions }, store: this.store };
+        starter(arg);
+        proposalMaker(arg);
     }
 }
 
