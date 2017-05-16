@@ -1,15 +1,16 @@
-import * as actions from '../../constants/actions';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { createScope } from '../../../CliTools';
+import rootReducer from '../../reducers/';
 import * as states from '../../constants/states';
 import init from './';
 
 describe('Init actor', () => {
-    it('should not run the init if bot is not stopped', async () => {
-        const action = await init({ initData: {}, state: { stage: states.INITIALIZED } });
-        expect(action).toEqual(undefined);
-    });
-    it('should initialize the bot if stopped', async () => {
-        const initData = { token: 'token', initOptions: {} };
-        const action = await init({ initData, state: { stage: states.STOPPED } });
-        expect(action).toEqual({ type: actions.INIT, initData });
+    it('should issue requestTicks and requestBalance, then should issue INITIALIZE', async () => {
+        const store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument(createScope())));
+        const data = { initOptions: { symbol: 'R_100' } };
+        await init({ data, store });
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.INITIALIZED);
     });
 });

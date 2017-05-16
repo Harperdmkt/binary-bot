@@ -16,8 +16,8 @@ describe('requestTicks action', () => {
             arg       : 'R_100',
             state     : { initData: { symbol: 'R_10' } },
             calledWith: expect.objectContaining({
-                type    : actions.NEW_TICK,
-                lastTick: expect.any(Number),
+                type: actions.NEW_TICK,
+                data: expect.any(Number),
             }),
         });
     });

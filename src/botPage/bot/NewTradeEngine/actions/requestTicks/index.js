@@ -16,8 +16,8 @@ const requestTicks = symbol => (dispatch, getState, { ticksService }) => {
     const key = ticksService.monitor({
         symbol,
         callback(ticks) {
-            const [{ epoch: lastTick }] = ticks.slice(-1);
-            dispatch({ type: actions.NEW_TICK, lastTick });
+            const [{ epoch: data }] = ticks.slice(-1);
+            dispatch({ type: actions.NEW_TICK, data });
         },
     });
 

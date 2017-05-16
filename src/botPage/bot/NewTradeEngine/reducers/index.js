@@ -1,12 +1,16 @@
-import * as actions from '../constants/actions';
-import * as states from '../constants/states';
+import { combineReducers } from 'redux';
+import initData from './initData';
+import lastTick from './lastTick';
+import balance from './balance';
+import contract from './contract';
+import proposal from './proposal';
+import stage from './stage';
 
-const reducer = (state = { stage: states.STOPPED, initData: {} }, action) => {
-    switch (action.type) {
-        case actions.INIT:
-            return { stage: states.INITIALIZED, initData: action.initData };
-        default:
-            return state;
-    }
-};
-export default reducer;
+export default combineReducers({
+    initData,
+    lastTick,
+    balance,
+    stage,
+    proposal,
+    contract,
+});
