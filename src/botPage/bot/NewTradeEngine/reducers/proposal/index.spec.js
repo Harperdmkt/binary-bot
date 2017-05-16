@@ -8,8 +8,10 @@ describe('Proposal Reducer', () => {
     it('Initial state', () => {
         expect((state = proposal(state, action(actions.INVALID)))).toEqual(states.WAITING_FOR_TRADE_OPTION);
     });
-    it('actions.ONE_PROPOSAL_NEEDED request', () => {
-        expect((state = proposal(state, action(actions.ONE_PROPOSAL_NEEDED)))).toEqual(states.WAITING_FOR_ONE_PROPOSAL);
+    it('actions.REQUEST_ONE_PROPOSAL request', () => {
+        expect((state = proposal(state, action(actions.REQUEST_ONE_PROPOSAL)))).toEqual(
+            states.WAITING_FOR_ONE_PROPOSAL
+        );
     });
     it('actions.UPDATE_PROPOSAL go to states.ONE_PROPOSAL_RECEIVED', () => {
         expect(proposal(state, action(actions.UPDATE_PROPOSAL))).toEqual(states.ONE_PROPOSAL_RECEIVED);
@@ -17,8 +19,8 @@ describe('Proposal Reducer', () => {
     it('actions.UPDATE_PROPOSAL go to states.ONE_PROPOSAL_RECEIVED', () => {
         expect(proposal(state, action(actions.UPDATE_PROPOSAL))).toEqual(states.ONE_PROPOSAL_RECEIVED);
     });
-    it('actions.TWO_PROPOSALS_NEEDED request', () => {
-        expect((state = proposal(states.WAITING_FOR_TRADE_OPTION, action(actions.TWO_PROPOSALS_NEEDED)))).toEqual(
+    it('actions.REQUEST_TWO_PROPOSALS request', () => {
+        expect((state = proposal(states.WAITING_FOR_TRADE_OPTION, action(actions.REQUEST_TWO_PROPOSALS)))).toEqual(
             states.WAITING_FOR_TWO_PROPOSALS
         );
     });

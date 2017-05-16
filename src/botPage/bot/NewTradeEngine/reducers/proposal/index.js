@@ -3,9 +3,9 @@ import * as actions from '../../constants/actions';
 
 const proposal = (state = states.WAITING_FOR_TRADE_OPTION, action) => {
     switch (action.type) {
-        case actions.ONE_PROPOSAL_NEEDED:
+        case actions.REQUEST_ONE_PROPOSAL:
             return states.WAITING_FOR_ONE_PROPOSAL;
-        case actions.TWO_PROPOSALS_NEEDED:
+        case actions.REQUEST_TWO_PROPOSALS:
             return states.WAITING_FOR_TWO_PROPOSALS;
         case actions.UPDATE_PROPOSAL:
             if (state === states.WAITING_FOR_TWO_PROPOSALS) {
