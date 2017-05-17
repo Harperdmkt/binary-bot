@@ -21,10 +21,10 @@ describe('Stage Reducer', () => {
         expect((state = stage(state, action(actions.RECEIVE_PROPOSALS)))).toEqual(states.PROPOSALS_READY);
     });
     it('Purchase failed', () => {
-        expect((state = stage(state, action(actions.PURCHASE_FAILED)))).toEqual(states.STARTED);
+        expect((state = stage(state, action(actions.PURCHASE_UNSUCCESSFULLY)))).toEqual(states.STARTED);
     });
     it('Purchase succeeded', () => {
-        expect((state = stage(state, action(actions.PURCHASE_SUCCEEDED)))).toEqual(states.SUCCESSFUL_PURCHASE);
+        expect((state = stage(state, action(actions.PURCHASE_SUCCESSFULLY)))).toEqual(states.SUCCESSFUL_PURCHASE);
     });
     it('Open contract received', () => {
         expect((state = stage(state, action(actions.OPEN_CONTRACT_RECEIVED)))).toEqual(states.OPEN_CONTRACT);

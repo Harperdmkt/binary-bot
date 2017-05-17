@@ -11,11 +11,11 @@ const stage = (state = initialState, action) => {
         case actions.INITIALIZE:
             return states.INITIALIZED;
         case actions.START:
-        case actions.PURCHASE_FAILED:
+        case actions.PURCHASE_UNSUCCESSFULLY:
             return states.STARTED;
         case actions.RECEIVE_PROPOSALS:
             return states.PROPOSALS_READY;
-        case actions.PURCHASE_SUCCEEDED:
+        case actions.PURCHASE_SUCCESSFULLY:
             return states.SUCCESSFUL_PURCHASE;
         case actions.OPEN_CONTRACT_RECEIVED:
             return states.OPEN_CONTRACT;
