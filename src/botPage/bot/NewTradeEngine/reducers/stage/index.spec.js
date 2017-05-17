@@ -23,6 +23,9 @@ describe('Stage Reducer', () => {
     it('Purchase failed', () => {
         expect((state = stage(state, action(actions.PURCHASE_UNSUCCESSFULLY)))).toEqual(states.STARTED);
     });
+    it('Purchase requested', () => {
+        expect((state = stage(state, action(actions.REQUEST_PURCHASE)))).toEqual(states.PURCHASING);
+    });
     it('Purchase succeeded', () => {
         expect((state = stage(state, action(actions.PURCHASE_SUCCESSFULLY)))).toEqual(states.SUCCESSFUL_PURCHASE);
     });
