@@ -27,7 +27,6 @@ const purchase = contractType => async (dispatch, getState, { api }) => {
         return;
     }
 
-    dispatch({ type: actions.REQUEST_PURCHASE });
     const { proposals } = state;
 
     const { id, askPrice } = selectProposal(proposals, contractType);
