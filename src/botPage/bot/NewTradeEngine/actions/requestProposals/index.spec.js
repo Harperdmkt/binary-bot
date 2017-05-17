@@ -19,23 +19,15 @@ describe('requestProposals action', () => {
             calledWith: {
                 type: actions.UPDATE_PROPOSAL,
                 data: expect.objectContaining({
-                    echo_req   : expect.any(Object),
-                    msg_type   : expect.any(String),
-                    req_id     : expect.any(Number),
-                    passthrough: {
-                        contractType: expect.any(String),
-                        uuid        : expect.any(String),
-                    },
-                    proposal: {
-                        ask_price    : expect.any(String),
-                        date_start   : expect.any(String),
-                        display_value: expect.any(String),
-                        id           : expect.any(String),
-                        longcode     : expect.any(String),
-                        payout       : expect.any(String),
-                        spot         : expect.any(String),
-                        spot_time    : expect.any(String),
-                    },
+                    ask_price    : expect.any(String),
+                    date_start   : expect.any(String),
+                    display_value: expect.any(String),
+                    id           : expect.any(String),
+                    longcode     : expect.any(String),
+                    payout       : expect.any(String),
+                    spot         : expect.any(String),
+                    spot_time    : expect.any(String),
+                    contractType : expect.any(String),
                 }),
             },
         });

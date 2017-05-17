@@ -14,7 +14,16 @@ const requestProposals = tradeOption => (dispatch, getState, { api }) => {
         )
     );
 
-    api.events.on('proposal', r => dispatch({ type: actions.UPDATE_PROPOSAL, data: r }));
+    api.events.on('proposal', r => {
+        const { proposal, passthrough } = r;
+        dispatch({
+            type: actions.UPDATE_PROPOSAL,
+            data: {
+                ...proposal,
+                ...passthrough,
+            },
+        });
+    });
 };
 
 export default requestProposals;
