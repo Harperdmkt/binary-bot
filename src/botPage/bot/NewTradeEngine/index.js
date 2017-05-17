@@ -3,6 +3,7 @@ import initializer from './actors/initializer';
 import starter from './actors/starter';
 import proposalMaker from './actors/proposalMaker';
 import watcher from './actors/watcher';
+import purchaser from './actors/purchaser';
 
 class Bot {
     constructor($scope) {
@@ -20,8 +21,11 @@ class Bot {
         starter(arg);
         proposalMaker(arg);
     }
-    watch() {
-        return watcher({ store: this.store });
+    watch(name) {
+        return watcher({ store: this.store, name });
+    }
+    purchase(data) {
+        return purchaser({ store: this.store, data });
     }
     /* eslint-enable */
 }
