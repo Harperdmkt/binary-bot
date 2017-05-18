@@ -4,6 +4,7 @@ import starter from './actors/starter';
 import proposalMaker from './actors/proposalMaker';
 import watcher from './actors/watcher';
 import purchaser from './actors/purchaser';
+import openContractManager from './actors/openContractManager';
 
 class Bot {
     constructor($scope) {
@@ -24,8 +25,9 @@ class Bot {
     watch(name) {
         return watcher({ store: this.store, name });
     }
-    purchase(data) {
-        return purchaser({ store: this.store, data });
+    async purchase(data) {
+        await purchaser({ store: this.store, data });
+        openContractManager({ store: this.store });
     }
     /* eslint-enable */
 }
