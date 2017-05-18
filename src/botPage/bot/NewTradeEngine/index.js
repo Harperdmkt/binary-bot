@@ -27,7 +27,11 @@ class Bot {
     }
     async purchase(data) {
         await purchaser({ store: this.store, data });
-        openContractManager({ store: this.store });
+        const { contractId } = this.store.getState();
+        openContractManager({ store: this.store, data: contractId });
+    }
+    isSellAtMarketAvailable() {
+        return true;
     }
     /* eslint-enable */
 }

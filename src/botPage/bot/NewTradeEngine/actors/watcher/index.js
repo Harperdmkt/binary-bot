@@ -3,14 +3,33 @@ import waitForCondition from '../waitForCondition';
 
 const watcher = async ({ store, name }) => {
     const { stage } = store.getState();
+
     if (name === 'before') {
         if (stage === states.STARTED) {
-            await waitForCondition(store, state => state.stage === states.PROPOSALS_READY);
-            return true;
+            return waitForCondition(store, state => state.stage === states.PROPOSALS_READY);
         }
-        return stage === states.PROPOSALS_READY;
+        if (stage === states.PROPOSALS_READY) {
+            const { lastTick: currentLastTick } = store.getState();
+            return waitForCondition(
+                store,
+                state => state.lastTick !== currentLastTick,
+                state => state.stage !== states.PROPOSALS_READY
+            );
+        }
+        return false;
     } else if (name === 'during') {
-        return stage === states.SUCCESSFUL_PURCHASE || stage === states.OPEN_CONTRACT;
+        if (stage === states.SUCCESSFUL_PURCHASE) {
+            return waitForCondition(store, state => state.stage === states.OPEN_CONTRACT);
+        }
+        if (stage === states.OPEN_CONTRACT) {
+            const { contract: currentContract } = store.getState();
+            return waitForCondition(
+                store,
+                state => state.contract !== currentContract,
+                state => state.stage !== states.OPEN_CONTRACT || state.contract.is_sold
+            );
+        }
+        return false;
     }
     return false;
 };
