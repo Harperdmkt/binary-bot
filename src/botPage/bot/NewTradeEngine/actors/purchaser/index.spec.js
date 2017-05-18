@@ -30,8 +30,11 @@ describe('purchaser actor', () => {
                 contractType: 'CALL',
             },
         });
-        await purchaser({ data: 'CALL', store });
-        const { stage } = store.getState();
-        expect(stage).toEqual(states.SUCCESSFUL_PURCHASE);
+        const successfulPurchase = purchaser({ data: 'CALL', store });
+        const { stage: beforeSuccess } = store.getState();
+        expect(beforeSuccess).toEqual(states.PURCHASING);
+        await successfulPurchase;
+        const { stage: afterSuccess } = store.getState();
+        expect(afterSuccess).toEqual(states.SUCCESSFUL_PURCHASE);
     });
 });
