@@ -30,7 +30,7 @@ describe('Stage Reducer', () => {
         expect((state = stage(state, action(actions.PURCHASE_SUCCESSFULLY)))).toEqual(states.SUCCESSFUL_PURCHASE);
     });
     it('Open contract received', () => {
-        expect((state = stage(state, action(actions.OPEN_CONTRACT_RECEIVED)))).toEqual(states.OPEN_CONTRACT);
+        expect((state = stage(state, action(actions.RECEIVE_OPEN_CONTRACT)))).toEqual(states.OPEN_CONTRACT);
     });
     it('Sell succeeded', () => {
         expect((state = stage(state, action(actions.SELL_SUCCEEDED)))).toEqual(states.INITIALIZED);

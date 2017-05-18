@@ -30,7 +30,7 @@ describe('watcher actor', () => {
             store.dispatch({ type: actions.PURCHASE_SUCCESSFULLY, data: {} });
             let shouldContinue = await watcher({ store, name: 'during' });
             expect(shouldContinue).toEqual(true);
-            store.dispatch({ type: actions.OPEN_CONTRACT_RECEIVED, data: {} });
+            store.dispatch({ type: actions.RECEIVE_OPEN_CONTRACT, data: {} });
             shouldContinue = await watcher({ store, name: 'during' });
             expect(shouldContinue).toEqual(true);
         });

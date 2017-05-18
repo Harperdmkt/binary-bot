@@ -19,7 +19,7 @@ const stage = (state = initialState, action) => {
             return states.PURCHASING;
         case actions.PURCHASE_SUCCESSFULLY:
             return states.SUCCESSFUL_PURCHASE;
-        case actions.OPEN_CONTRACT_RECEIVED:
+        case actions.RECEIVE_OPEN_CONTRACT:
             return states.OPEN_CONTRACT;
         default:
             return state;

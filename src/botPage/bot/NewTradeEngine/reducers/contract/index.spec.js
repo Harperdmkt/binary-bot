@@ -6,9 +6,9 @@ describe('contract reducer', () => {
     it('contract should be empty', () => {
         expect((state = contract(state, { type: actions.INVALID }))).toEqual({});
     });
-    it('actions.OPEN_CONTRACT_RECEIVED should set contract', () => {
+    it('actions.RECEIVE_OPEN_CONTRACT should set contract', () => {
         expect(
-            (state = contract(state, { type: actions.OPEN_CONTRACT_RECEIVED, data: { id: 'oi1joi3ejoij' } }))
+            (state = contract(state, { type: actions.RECEIVE_OPEN_CONTRACT, data: { id: 'oi1joi3ejoij' } }))
         ).toEqual({
             id: 'oi1joi3ejoij',
         });
