@@ -1,7 +1,12 @@
 import * as actions from '../../constants/actions';
+import * as states from '../../constants/states';
 import { tradeOptionToProposal, doUntilDone, getUUID } from '../../../tools';
 
 const requestProposals = tradeOption => (dispatch, getState, { api }) => {
+    const { proposalStage } = getState();
+    if (proposalStage === states.WAITING_FOR_TRADE_OPTION) {
+        return;
+    }
     tradeOptionToProposal(tradeOption).map(proposal =>
         doUntilDone(() =>
             api.subscribeToPriceForContractProposal({
