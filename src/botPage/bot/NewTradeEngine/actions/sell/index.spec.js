@@ -8,6 +8,7 @@ describe('sell action', () => {
     it('should not be called if not OPEN_CONTRACT', () => {
         notToBeCalled({
             action: sell,
+            arg   : 'contractId',
             state : { stage: states.INITIALIZED },
         });
     });
@@ -31,6 +32,7 @@ describe('sell action', () => {
         await toBeCalledWithAsync({
             $scope,
             action: sell,
+            arg   : contractId,
             state : {
                 stage: states.OPEN_CONTRACT,
                 contractId,

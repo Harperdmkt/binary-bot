@@ -1,5 +1,5 @@
 import { translate } from '../../../../../common/i18n';
-import { recoverFromError } from '../../../tools';
+import { doUntilDone } from '../../../tools';
 import * as actions from '../../constants/actions';
 import * as states from '../../constants/states';
 
@@ -31,7 +31,7 @@ const purchase = contractType => async (dispatch, getState, { api }) => {
 
     const { id, askPrice } = selectProposal(proposals, contractType);
 
-    const { buy: { contract_id: contractId } } = await recoverFromError(() => api.buyContract(id, askPrice), () => {});
+    const { buy: { contract_id: contractId } } = await doUntilDone(() => api.buyContract(id, askPrice));
 
     dispatch({ type: actions.PURCHASE_SUCCESSFULLY, data: contractId });
 };
