@@ -1,17 +1,10 @@
 import { createScope } from '../../../CliTools';
 import * as actions from '../../constants/actions';
 import * as states from '../../constants/states';
-import { toBeCalledWithAsync, notToBeCalled } from '../tools';
+import { toBeCalledWithAsync } from '../tools';
 import purchase from './';
 
 describe('purchase action', () => {
-    it('should not be called if not PURCHASING', () => {
-        notToBeCalled({
-            action: purchase,
-            arg   : 'CALL',
-            state : { stage: states.STARTED },
-        });
-    });
     it('Should PURCHASE_SUCCESSFUL', async () => {
         const $scope = createScope();
         const { api } = $scope;

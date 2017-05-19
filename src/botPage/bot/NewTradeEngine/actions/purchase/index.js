@@ -1,7 +1,6 @@
 import { translate } from '../../../../../common/i18n';
 import { doUntilDone } from '../../../tools';
 import * as actions from '../../constants/actions';
-import * as states from '../../constants/states';
 
 const selectProposal = (proposals, contractType) => {
     if (!proposals.length) {
@@ -21,13 +20,7 @@ const selectProposal = (proposals, contractType) => {
 };
 
 const purchase = contractType => async (dispatch, getState, { api }) => {
-    const state = getState();
-    const { stage } = state;
-    if (stage !== states.PURCHASING) {
-        return;
-    }
-
-    const { proposals } = state;
+    const { proposals } = getState();
 
     const { id, askPrice } = selectProposal(proposals, contractType);
 
