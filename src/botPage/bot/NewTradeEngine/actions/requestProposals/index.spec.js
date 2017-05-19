@@ -1,15 +1,9 @@
-import { toBeCalledWithAsync, notToBeCalled } from '../tools';
+import { toBeCalledWithAsync } from '../tools';
 import * as actions from '../../constants/actions';
 import * as states from '../../constants/states';
 import requestProposals from './';
 
 describe('requestProposals action', () => {
-    it('should do nothing if not waiting for proposals (init state)', async () => {
-        notToBeCalled({
-            action: requestProposals,
-            state : { proposalStage: states.WAITING_FOR_TRADE_OPTION },
-        });
-    });
     it('should UPDATE_PROPOSAL', async () => {
         await toBeCalledWithAsync({
             action: requestProposals,

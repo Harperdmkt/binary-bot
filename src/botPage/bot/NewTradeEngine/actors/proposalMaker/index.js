@@ -4,8 +4,8 @@ import requestProposals from '../../actions/requestProposals';
 import waitForCondition from '../waitForCondition';
 
 const proposalMaker = async ({ store }) => {
-    const { stage, tradeOption } = store.getState();
-    if (stage !== states.STARTED) {
+    const { proposalStage, stage, tradeOption } = store.getState();
+    if (stage !== states.STARTED || proposalStage === states.WAITING_FOR_TRADE_OPTION) {
         return;
     }
     store.dispatch(requestProposals(tradeOption));

@@ -14,13 +14,16 @@ describe('proposalMaker actor', () => {
         duration      : 5,
         duration_unit : 't',
     };
-    it('should not run if not STARTED', async () => {
+    it('should not run if not STARTED and WAITING_FOR_TRADE_OPTION', async () => {
         await proposalMaker({ store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.STOPPED);
+        store.dispatch({ type: actions.START, data });
+        await proposalMaker({ store });
+        const { stage: stage2 } = store.getState();
+        expect(stage2).toEqual(states.STARTED);
     });
     it('should request for proposals then RECEIVE_PROPOSALS', async () => {
-        store.dispatch({ type: actions.START, data });
         store.dispatch({ type: actions.REQUEST_TWO_PROPOSALS });
         await proposalMaker({ store });
         const { stage } = store.getState();
