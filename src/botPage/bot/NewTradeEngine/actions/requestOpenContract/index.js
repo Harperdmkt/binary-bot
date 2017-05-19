@@ -1,14 +1,7 @@
 import { doUntilDone } from '../../../tools';
 import * as actions from '../../constants/actions';
-import * as states from '../../constants/states';
 
 const requestOpenContract = contractId => (dispatch, getState, { api }) => {
-    const { stage } = getState();
-
-    if (stage !== states.SUCCESSFUL_PURCHASE) {
-        return;
-    }
-
     api.events.on('proposal_open_contract', r => {
         const contract = r.proposal_open_contract;
         const { contract_id: responseContractId } = contract;

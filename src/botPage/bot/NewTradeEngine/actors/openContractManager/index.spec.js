@@ -1,10 +1,17 @@
 import { createScope } from '../../../CliTools';
 import createStoreWithScope from '../../createStoreWithScope';
+import createStore from '../../createStore';
 import * as states from '../../constants/states';
 import * as actions from '../../constants/actions';
 import openContractManager from './';
 
 describe('openContractManager actor', () => {
+    it('should not run if not SUCCESSFUL_PURCHASE', async () => {
+        const store = createStore();
+        await openContractManager({ store });
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.STOPPED);
+    });
     it('should request for open contract using contractId', async () => {
         const $scope = createScope();
         const { api } = $scope;
