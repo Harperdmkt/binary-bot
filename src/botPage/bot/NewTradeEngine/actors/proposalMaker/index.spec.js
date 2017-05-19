@@ -15,15 +15,15 @@ describe('proposalMaker actor', () => {
         duration_unit : 't',
     };
     it('should request for proposals then RECEIVE_PROPOSALS', async () => {
-        store.dispatch({ type: actions.START, data: {} });
+        store.dispatch({ type: actions.START, data });
         store.dispatch({ type: actions.REQUEST_TWO_PROPOSALS });
-        await proposalMaker({ data, store });
+        await proposalMaker({ store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.PROPOSALS_READY);
     });
     it('should not change the state after PURCHASING', async () => {
         store.dispatch({ type: actions.REQUEST_PURCHASE });
-        await proposalMaker({ data, store });
+        await proposalMaker({ store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.PURCHASING);
     });

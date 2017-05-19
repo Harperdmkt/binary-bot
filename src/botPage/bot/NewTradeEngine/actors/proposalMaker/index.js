@@ -3,12 +3,12 @@ import * as states from '../../constants/states';
 import requestProposals from '../../actions/requestProposals';
 import waitForCondition from '../waitForCondition';
 
-const proposalMaker = async ({ data, store }) => {
-    const { stage } = store.getState();
+const proposalMaker = async ({ store }) => {
+    const { stage, tradeOption } = store.getState();
     if (stage !== states.STARTED) {
         return;
     }
-    store.dispatch(requestProposals(data));
+    store.dispatch(requestProposals(tradeOption));
     await waitForCondition(
         store,
         state =>

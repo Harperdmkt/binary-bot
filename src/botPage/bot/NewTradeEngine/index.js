@@ -33,7 +33,7 @@ class Bot {
         return !isSold && isValidToSell;
     }
     async sellAtMarket() {
-        seller({ store: this.store });
+        return seller({ store: this.store });
     }
     /* eslint-enable */
 }

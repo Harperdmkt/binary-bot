@@ -13,6 +13,6 @@ describe('Starter actor', () => {
         const { stage, proposalStage, tradeOption } = store.getState();
         expect(stage).toEqual(states.STARTED);
         expect(proposalStage).toEqual(states.WAITING_FOR_TWO_PROPOSALS);
-        expect(tradeOption).toEqual({ ...data, ...initData });
+        expect(tradeOption).toEqual({ ...data, ...initData.initOptions });
     });
 });
