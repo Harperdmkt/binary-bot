@@ -14,6 +14,11 @@ describe('proposalMaker actor', () => {
         duration      : 5,
         duration_unit : 't',
     };
+    it('should not run if not STARTED', async () => {
+        await proposalMaker({ store });
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.STOPPED);
+    });
     it('should request for proposals then RECEIVE_PROPOSALS', async () => {
         store.dispatch({ type: actions.START, data });
         store.dispatch({ type: actions.REQUEST_TWO_PROPOSALS });
