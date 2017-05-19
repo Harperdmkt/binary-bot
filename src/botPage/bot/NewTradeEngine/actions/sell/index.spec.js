@@ -2,47 +2,41 @@ import { createScope } from '../../../CliTools';
 import * as actions from '../../constants/actions';
 import * as states from '../../constants/states';
 import { toBeCalledWithAsync, notToBeCalled } from '../tools';
-import purchase from './';
+import sell from './';
 
-describe('purchase action', () => {
-    it('should not be called if not PROPOSALS_READY', () => {
+describe('sell action', () => {
+    it('should not be called if not OPEN_CONTRACT', () => {
         notToBeCalled({
-            action: purchase,
-            arg   : 'CALL',
-            state : { stage: states.STARTED },
+            action: sell,
+            state : { stage: states.INITIALIZED },
         });
     });
-    it('Should PURCHASE_SUCCESSFUL', async () => {
+    it('Should SELL_SUCCESSFUL', async () => {
         const $scope = createScope();
         const { api } = $scope;
 
         await api.authorize('Xkq6oGFEHh6hJH8');
-        const { proposal } = await api.subscribeToPriceForContractProposal({
+        const { proposal: { id, ask_price: askPrice } } = await api.subscribeToPriceForContractProposal({
             amount       : '1.00',
             basis        : 'stake',
             contract_type: 'CALL',
             currency     : 'USD',
             duration     : 5,
-            duration_unit: 't',
+            duration_unit: 'h',
             symbol       : 'R_100',
         });
 
+        const { buy: { contract_id: contractId } } = await api.buyContract(id, askPrice);
+
         await toBeCalledWithAsync({
             $scope,
-            action: purchase,
-            arg   : 'CALL',
+            action: sell,
             state : {
-                stage    : states.PROPOSALS_READY,
-                proposals: [
-                    {
-                        ...proposal,
-                        contractType: 'CALL',
-                    },
-                ],
+                stage: states.OPEN_CONTRACT,
+                contractId,
             },
             calledWith: expect.objectContaining({
-                type: actions.PURCHASE_SUCCESSFULLY,
-                data: expect.any(String),
+                type: actions.SELL_SUCCESSFULLY,
             }),
         });
     });
