@@ -1,10 +1,17 @@
 import { createScope } from '../../../CliTools';
 import createStoreWithScope from '../../createStoreWithScope';
+import createStore from '../../createStore';
 import * as states from '../../constants/states';
 import * as actions from '../../constants/actions';
 import purchaser from './';
 
 describe('purchaser actor', () => {
+    it('should not run if not PROPOSALS_READY', async () => {
+        const store = createStore();
+        await purchaser({ store, data: {} });
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.STOPPED);
+    });
     it('should try to purchase then PURCHASE_SUCCESSFULLY', async () => {
         const $scope = createScope();
         const { api } = $scope;

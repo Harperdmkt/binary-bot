@@ -4,6 +4,10 @@ import purchase from '../../actions/purchase';
 import waitForCondition from '../waitForCondition';
 
 const purchaser = ({ data, store }) => {
+    const { stage } = store.getState();
+    if (stage !== states.PROPOSALS_READY) {
+        return Promise.resolve();
+    }
     store.dispatch(purchase(data));
     store.dispatch({ type: actions.REQUEST_PURCHASE });
     return waitForCondition(store, state => state.stage === states.SUCCESSFUL_PURCHASE);
