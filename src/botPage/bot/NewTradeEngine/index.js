@@ -5,6 +5,7 @@ import proposalMaker from './actors/proposalMaker';
 import watcher from './actors/watcher';
 import purchaser from './actors/purchaser';
 import openContractManager from './actors/openContractManager';
+import seller from './actors/seller';
 
 class Bot {
     constructor($scope) {
@@ -17,21 +18,22 @@ class Bot {
     }
     /* eslint-disable class-methods-use-this */
     start(data) {
-        const { initData: { initOptions } } = this.store.getState();
-        const arg = { data: { ...data, ...initOptions }, store: this.store };
-        starter(arg);
-        proposalMaker(arg);
+        starter({ store: this.store, data });
+        proposalMaker({ store: this.store });
     }
     watch(name) {
         return watcher({ store: this.store, name });
     }
     async purchase(data) {
         await purchaser({ store: this.store, data });
-        const { contractId } = this.store.getState();
-        openContractManager({ store: this.store, data: contractId });
+        openContractManager({ store: this.store });
     }
     isSellAtMarketAvailable() {
-        return true;
+        const { contract: { is_sold: isSold, is_valid_to_sell: isValidToSell } } = this.store.getState();
+        return !isSold && isValidToSell;
+    }
+    async sellAtMarket() {
+        seller({ store: this.store });
     }
     /* eslint-enable */
 }

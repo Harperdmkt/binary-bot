@@ -26,7 +26,7 @@ describe('openContractManager actor', () => {
             type: actions.PURCHASE_SUCCESSFULLY,
             data: contractId,
         });
-        await openContractManager({ data: contractId, store });
+        await openContractManager({ store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.OPEN_CONTRACT);
     });
