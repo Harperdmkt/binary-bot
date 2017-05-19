@@ -1,17 +1,10 @@
 import { createScope } from '../../../CliTools';
 import * as actions from '../../constants/actions';
 import * as states from '../../constants/states';
-import { toBeCalledWithAsync, notToBeCalled } from '../tools';
+import { toBeCalledWithAsync } from '../tools';
 import sell from './';
 
 describe('sell action', () => {
-    it('should not be called if not OPEN_CONTRACT', () => {
-        notToBeCalled({
-            action: sell,
-            arg   : 'contractId',
-            state : { stage: states.INITIALIZED },
-        });
-    });
     it('Should SELL_SUCCESSFUL', async () => {
         const $scope = createScope();
         const { api } = $scope;

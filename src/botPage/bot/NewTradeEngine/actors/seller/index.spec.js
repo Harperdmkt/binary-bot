@@ -1,11 +1,21 @@
 import { createScope } from '../../../CliTools';
 import createStoreWithScope from '../../createStoreWithScope';
+import createStore from '../../createStore';
 import * as states from '../../constants/states';
 import * as actions from '../../constants/actions';
 import seller from './';
 
+const sleep = milisec => new Promise(resolve => setTimeout(resolve, milisec));
+
 describe('seller actor', () => {
-    it('should try to purchase then PURCHASE_SUCCESSFULLY', async () => {
+    it('should do nothing if not OPEN_CONTRACT', async () => {
+        const store = createStore();
+        await seller({ store });
+
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.STOPPED);
+    });
+    it('should try to sell then SELL_SUCCESSFULLY', async () => {
         const $scope = createScope();
         const { api } = $scope;
 
@@ -32,6 +42,8 @@ describe('seller actor', () => {
             type: actions.RECEIVE_OPEN_CONTRACT,
             data: {},
         });
+        // wait for sell available signal!
+        await sleep(1000);
         await seller({ store });
         const { stage } = store.getState();
         expect(stage).toEqual(states.INITIALIZED);
