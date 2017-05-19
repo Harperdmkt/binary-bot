@@ -5,7 +5,7 @@ import { toBeCalledWithAsync, notToBeCalled } from '../tools';
 import purchase from './';
 
 describe('purchase action', () => {
-    it('should not be called if not PROPOSALS_READY', () => {
+    it('should not be called if not PURCHASING', () => {
         notToBeCalled({
             action: purchase,
             arg   : 'CALL',
@@ -32,7 +32,7 @@ describe('purchase action', () => {
             action: purchase,
             arg   : 'CALL',
             state : {
-                stage    : states.PROPOSALS_READY,
+                stage    : states.PURCHASING,
                 proposals: [
                     {
                         ...proposal,

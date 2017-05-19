@@ -23,7 +23,7 @@ const selectProposal = (proposals, contractType) => {
 const purchase = contractType => async (dispatch, getState, { api }) => {
     const state = getState();
     const { stage } = state;
-    if (stage !== states.PROPOSALS_READY) {
+    if (stage !== states.PURCHASING) {
         return;
     }
 

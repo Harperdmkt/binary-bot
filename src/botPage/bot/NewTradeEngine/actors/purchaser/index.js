@@ -8,8 +8,8 @@ const purchaser = ({ data, store }) => {
     if (stage !== states.PROPOSALS_READY) {
         return Promise.resolve();
     }
-    store.dispatch(purchase(data));
     store.dispatch({ type: actions.REQUEST_PURCHASE });
+    store.dispatch(purchase(data));
     return waitForCondition(store, state => state.stage === states.SUCCESSFUL_PURCHASE);
 };
 
