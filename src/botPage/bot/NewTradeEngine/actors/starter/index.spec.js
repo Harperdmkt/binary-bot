@@ -4,6 +4,13 @@ import * as actions from '../../constants/actions';
 import starter from './';
 
 describe('Starter actor', () => {
+    it('should not have any effect if is not INITIALIZED', async () => {
+        const store = createStore();
+        const data = { contractTypes: ['CALL', 'PUT'] };
+        await starter({ data, store });
+        const { stage } = store.getState();
+        expect(stage).toEqual(states.STOPPED);
+    });
     it('should initProposals and START', async () => {
         const store = createStore();
         const initData = { initOptions: { symbol: 'R_100' } };
