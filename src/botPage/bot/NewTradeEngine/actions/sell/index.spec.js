@@ -22,6 +22,8 @@ describe('sell action', () => {
 
         const { buy: { contract_id: contractId } } = await api.buyContract(id, askPrice);
 
+        await api.subscribeToOpenContract(contractId);
+
         await toBeCalledWithAsync({
             $scope,
             action: sell,
