@@ -11,8 +11,8 @@
   <body>
     <div id="tour"></div>
     <div id="center"></div>
-    <span id="limits-dialog"></span>
-    <span id="save-dialog"></span>
+    <span id="limits-panel"></span>
+    <span id="restartTimeout"></span>
     <div>
       <div class="blocker"></div>
       <div class="reality-check" style="display: none">
@@ -42,7 +42,7 @@
     <div id="header">
       <div class="left-header">
         <div class="logo-wrapper">
-          <a href="https://www.binary.com" target="blank" id="logo">
+          <a href="javascript:;" id="logo">
             <div class="logo-parent">
               <div class="logo">
                 <img class="responsive" src="https://style.binary.com/images/logo/symbol.svg" alt="Binary-logo" />
@@ -54,7 +54,22 @@
           </a>
         </div>
       </div>
-      <div class="right-header show-on-load">
+      <div class="middle-header show-on-load">
+        <button title="Open menu to see actions" id="mobileMenu" class="icon-menu top-menu" data-i18n-text="Menu"></button>
+        <div class="collapse-menu hiddenMenu">
+          <button title="Load the blocks as an XML file" id="loadXml" class="icon-browse group-save top-menu">
+            <span data-i18n-text="Open"></span>
+          </button>
+          <div id="saveXml"></div>
+          <button title="Run the blocks" id="runButton" class="icon-run group-start-stop top-menu">
+            <span data-i18n-text="Run"></span>
+          </button>
+          <button title="Stop the blocks" id="stopButton" class="icon-stop group-start-stop top-menu">
+            <span data-i18n-text="Stop"></span>
+          </button>
+        </div>
+      </div>
+      <div class="right-header">
         <div class="intro-login-logout">
           <div id="account-list">
             <div id="main-logout">
@@ -94,21 +109,41 @@
         </div>
       </div>
     </div>
-    <div id="blocklyDiv"></div>
-    <div id="summaryPanel" class="draggable-dialog">
-      <div class="content">
-        <h3>
+    <div class="view-menu">
+      <button title="Switch to execute view" id="showExecute" class="icon-execute selected">
+        <span data-i18n-text="Bot"></span>
+      </button>
+      <button title="Switch to report summary panel" id="showSummary" class="icon-summary">
+        <span data-i18n-text="Report"></span>
+      </button>
+    </div>
+    <div id="container">
+      <div class="controls">
+        <div class="edit-mode-toggle">
+          <span data-i18n-text="Edit" class="icon-edit"></span>
+          <label class="switch">
+            <input type="checkbox" id="showEdit">
+            <div class="slider round"></div>
+          </label>
+        </div>
+        <div class="zoom-controls">
+          <button title="Zoom In (Ctrl + +)" id="zoomIn" class="icon-zoom-in"></button>
+          <button title="Zoom Out (Ctrl + -)" id="zoomOut" class="icon-zoom-out"></button>
+        </div>
+      </div>
+      <div id="summaryPanel" class="report">
+        <h4>
           <span data-i18n-text="Summary"></span>
-        </h3>
+        </h4>
         <table id="summaryDisplay">
           <thead>
             <tr>
               <th data-i18n-text="No. of runs"></th>
-              <th data-i18n-text="Total stake"></th>
-              <th data-i18n-text="Total payout"></th>
+              <th data-i18n-text="Total Stake"></th>
+              <th data-i18n-text="Total Payout"></th>
               <th data-i18n-text="Win"></th>
               <th data-i18n-text="Loss"></th>
-              <th data-i18n-text="Total profit/loss"></th>
+              <th data-i18n-text="Total Profit/Loss"></th>
               <th data-i18n-text="Balance"></th>
             </tr>
           </thead>
@@ -124,32 +159,44 @@
             </tr>
           </tbody>
         </table>
-        <h3>
+        <h4>
           <span data-i18n-text="Trades"></span>
-        </h3>
+        </h4>
         <div class="table-scroll">
-          <div id="tradeInfo"></div>
+          <table id="tradesDisplay">
+            <thead>
+              <tr>
+                <th><span data-i18n-text="Number"></span></th>
+                <th><span data-i18n-text="Reference"></span></th>
+                <th><span data-i18n-text="Trade Type"></span></th>
+                <th><span data-i18n-text="Entry Spot"></span></th>
+                <th><span data-i18n-text="Exit Spot"></span></th>
+                <th><span data-i18n-text="Buy Price"></span></th>
+                <th><span data-i18n-text="Final Price"></span></th>
+                <th><span data-i18n-text="Profit/Loss"></span></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
         <div id="chart"></div>
       </div>
+      <form id="fileUploadForm" style="display: none;">
+        <input title="Open an already saved XML file and retrieve its blocks" type="file" id="files" accept=".xml" multiple/>
+      </form>
+      <div id="toolbox" class="actions_menu">
+        <button title="Open menu to select a block" id="openMenu" class="icon-plus" data-i18n-text="Add Block"></button>
+        <button title="Undo the changes (Ctrl+Z)" id="undo" class="icon-undo" data-i18n-text="Undo"></button>
+        <button title="Redo the changes (Ctrl+Shift+Z)" id="redo" class="icon-redo" data-i18n-text="Redo"></button>
+        <button title="Clean up" id="cleanUp" class="icon-sort" data-i18n-text="Clean Up"></button>
+        <button title="Reset the blocks" id="resetButton" class="icon-reset" data-i18n-text="Reset"></button>
+      </div>
+      <div id="blocklyDiv"></div>
     </div>
-    <form id="fileUploadForm" style="display: none;">
-      <input title="Open an already saved XML file and retrieve its blocks" type="file" id="files" accept=".xml" multiple/>
-    </form>
-    <div id="toolbox" class="actions_menu show-on-load">
-      <button title="Load new blocks (xml file)" id="loadXml" class="toolbox-button icon-browse"></button>
-      <button title="Save the existing blocks (xml file)" id="save-xml" class="toolbox-button icon-save"></button>
-      <button title="Undo the changes (Ctrl+Z)" id="undo" class="toolbox-button icon-undo"></button>
-      <button title="Redo the changes (Ctrl+Shift+Z)" id="redo" class="toolbox-button icon-redo"></button>
-      <button title="Zoom In (Ctrl + +)" id="zoomIn" class="toolbox-button icon-zoom-in"></button>
-      <button title="Zoom Out (Ctrl + -)" id="zoomOut" class="toolbox-button icon-zoom-out"></button>
-      <button title="Rearrange Vertically" id="rearrange" class="toolbox-button icon-sort"></button>
-      <button title="Show/hide the summary pop-up" id="showSummary" class="toolbox-button icon-summary"></button>
-      <button title="Reset the blocks to their initial state" id="resetButton" class="toolbox-button icon-reset"></button>
-      <button title="Run the bot" id="runButton" class="toolbox-button icon-run"></button>
-      <button title="Stop the bot" id="stopButton" class="toolbox-button icon-stop"></button>
-    </div>
-    <div id="footer"></div>
-    {{> bundle}} {{> bot}}
+    {{> jquery}} {{> bundle}} {{> bot}}
+    <script src="https://style.binary.com/binary.js"></script>
+
   </body>
+
 </html>
